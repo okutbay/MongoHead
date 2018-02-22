@@ -1,4 +1,4 @@
-# mongohead
+# MongoHead
 Provides layer for MongoDB operations over .NET driver
 
 # MongoDB
