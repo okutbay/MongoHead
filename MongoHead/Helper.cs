@@ -20,7 +20,7 @@ namespace MongoHead
             string dbName = string.Empty;
 
             connectionString = MongoDBConfig.ConnectionString;
-            dbName = MongoDBConfig.DBName;
+            dbName = MongoDBConfig.DatabaseName;
 
             if (string.IsNullOrEmpty(connectionString))
             {
@@ -36,6 +36,23 @@ namespace MongoHead
             IMongoDatabase db = client.GetDatabase(dbName);
 
             return db;
+        }
+
+
+
+        public static List<T> GetAll<T>(string CollectionName, string dbName = "")
+        {
+            //IMongoDatabase db = Helper.GetDBInstance(dbName);
+
+            //IMongoCollection<T> collection = db.GetCollection<T>(CollectionName);
+
+            List<T> list = new List<T>();
+            //foreach (var item in collection.Find<T>().ToList<T>())
+            //{
+            //    list.Add(item);
+            //}
+
+            return list;
         }
 
 

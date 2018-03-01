@@ -7,12 +7,12 @@ namespace MongoHead
     public class MongoDBConfig
     {
         public string ConnectionString { get; set; }
-        public string DBName { get; set; }
+        public string DatabaseName { get; set; }
 
-        public MongoDBConfig(string ConnectionString, string DBName)
+        public MongoDBConfig(string ConnectionString, string DatabaseName)
         {
             this.ConnectionString = ConnectionString;
-            this.DBName = DBName;
+            this.DatabaseName = DatabaseName;
         }
     }
 }
