@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+
+using MongoHeadSample.Models;
+using MongoHeadSample.Interfaces;
+using MongoHeadSample.Data;
+
 namespace MongoHeadSample
 {
     public class Startup
@@ -22,6 +27,15 @@ namespace MongoHeadSample
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            //[OKB]Get app settings
+            services.Configure<AppSettings>(options =>
+            {
+                options.ConnectionString = Configuration.GetSection("MongoDBConfig:ConnectionString").Value;
+                options.DatabaseName = Configuration.GetSection("MongoDBConfig:DatabaseName").Value;
+            });
+
+            services.AddTransient<ISampleRepository, SampleRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
