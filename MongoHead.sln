@@ -1,10 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0F0B15A2-1BE4-4EA8-9853-D484D1C9A626}"
 	ProjectSection(SolutionItems) = preProject
+		CONTRIBUTION.md = CONTRIBUTION.md
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -12,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoHead", "MongoHead\Mong
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoHeadSample", "MongoHeadSample\MongoHeadSample.csproj", "{EA577CC4-DB7C-4B1A-A17D-52EB7F6748CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoHeadSampleApp", "MongoHeadSampleApp\MongoHeadSampleApp.csproj", "{242F4E84-A673-4691-8196-88C6254927CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoHeadSampleApp", "MongoHeadSampleApp\MongoHeadSampleApp.csproj", "{242F4E84-A673-4691-8196-88C6254927CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
