@@ -5,6 +5,7 @@ VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0F0B15A2-1BE4-4EA8-9853-D484D1C9A626}"
 	ProjectSection(SolutionItems) = preProject
+		CONTRIBUTION.md = CONTRIBUTION.md
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -14,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoHeadSample", "MongoHea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoHeadSampleApp", "MongoHeadSampleApp\MongoHeadSampleApp.csproj", "{242F4E84-A673-4691-8196-88C6254927CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoDBSample", "MongoDBSample\MongoDBSample.csproj", "{1A5AD53B-BF7A-4971-8A89-D71667FCF966}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoDBSample", "MongoDBSample\MongoDBSample.csproj", "{1A5AD53B-BF7A-4971-8A89-D71667FCF966}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
