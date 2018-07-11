@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoHeadSample", "MongoHea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoHead", "MongoHead\MongoHead.csproj", "{A450A947-9C03-4E1A-847A-55EF28BAC882}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoHead_", "MongoHead_\MongoHead_.csproj", "{A40CD104-5609-4A72-83F4-F5B613A70846}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,9 +27,6 @@ Global
 		{A450A947-9C03-4E1A-847A-55EF28BAC882}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A450A947-9C03-4E1A-847A-55EF28BAC882}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A450A947-9C03-4E1A-847A-55EF28BAC882}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A40CD104-5609-4A72-83F4-F5B613A70846}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A40CD104-5609-4A72-83F4-F5B613A70846}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A40CD104-5609-4A72-83F4-F5B613A70846}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
