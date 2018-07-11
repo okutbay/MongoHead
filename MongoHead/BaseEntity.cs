@@ -10,7 +10,8 @@ namespace MongoHead
     {
         public ObjectId _id { get; set; }
         public bool _IsActive { get; set; }
-        public DateTime _DateCreated { get; set; }
-        public DateTime _DateModified { get; set; }
+        public DateTime _DateUtcCreated { get; set; }
+        public DateTime _DateUtcModified { get; set; }
+        public TimeSpan _DateUtcOffset { get; set; }
     }
 }

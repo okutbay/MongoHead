@@ -21,12 +21,17 @@ namespace MongoHead
         /// <summary>
         /// "DateCreatedFieldName" constant is used to access specific "_DateCreated" field property name of the base entity to access it in run-time for insert, update or delete purposes
         /// </summary>
-        public string DateCreatedFieldName { get { return "_DateCreated"; } }
+        public string DateUtcCreatedFieldName { get { return "_DateUtcCreated"; } }
 
         /// <summary>
         /// "DateModifiedFieldName" constant is used to access specific "_DateModified" field property name of the base entity to access it in run-time for insert, update or delete purposes
         /// </summary>
-        public string DateModifiedFieldName { get { return "_DateModified"; } }
+        public string DateUtcModifiedFieldName { get { return "_DateUtcModified"; } }
+
+        /// <summary>
+        /// "DateModifiedFieldName" constant is used to access specific "_DateModified" field property name of the base entity to access it in run-time for insert, update or delete purposes
+        /// </summary>
+        public string DateUtcOffsetFieldName { get { return "_DateUtcOffset"; } }
 
         /// <summary>
         /// "IsActiveFieldName" constant is used to access specific "_IsActive" field property name of the base entity to access it in run-time for insert, update or delete purposes
@@ -112,10 +117,6 @@ namespace MongoHead
         {
             IMongoDatabase db = this.GetDBInstance(dbName);
             IMongoCollection<BsonDocument> collection = db.GetCollection<BsonDocument>(CollectionName);
-
-            //TODO save islemlerinde datecreated ve date modified biz set edelim.
-            DateTime DateCreated = ObjectToSave[DateCreatedFieldName].ToUniversalTime();
-            DateTime DateModified = ObjectToSave[DateModifiedFieldName].ToUniversalTime();
 
             collection.InsertOne(ObjectToSave);
 

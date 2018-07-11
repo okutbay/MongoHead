@@ -9,20 +9,37 @@ using MongoHead.Interfaces;
 
 namespace MongoHead
 {
+    /// <summary>
+    /// This class wraps helper methods and provides base data methods for your data class
+    /// Data class inheriting this class must have "internal" accessor to prevent direct access from presantation apps/layers
+    /// </summary>
+    /// <typeparam name="T">Generic Type which presents your Entity Object</typeparam>
+    /// <example>
+    /// Sample data class implementation with configuration injection
+    /// <code>
+    /// internal class SomeData : MongoHead.BaseData<SomeEntity>
+    /// {
+    ///   readonly IConfiguration _configuration;
+    ///
+    ///   public SomeData(IConfiguration Configuration) : base(Configuration)
+    ///   {
+    ///     this._configuration = Configuration;
+    ///   }
+    /// }
+    /// </code>
+    /// </example>
     public class BaseData<T> : IBaseData<T>
     {
         readonly IConfiguration _configuration;
         readonly MongoDBConfig config;
 
-
         string CollectionName { get; set; }
-        
 
         public BaseData(IConfiguration Configuration)
         {
             this._configuration = Configuration;
-            //TODO bu keyler yok ise ne oluyor??? deneyelim
 
+            //These settings are checked on the helper class
             config = new MongoDBConfig(
                 _configuration["Settings:MongoDB:ConnectionString"],
                 _configuration["Settings:MongoDB:DefaultDatabaseName"]
@@ -92,6 +109,12 @@ namespace MongoHead
             return foundItems;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="UseAndLogic"></param>
+        /// <returns></returns>
         public Dictionary<string, string> GetKeyValueList(List<Filter> filter, bool UseAndLogic = true)
         {
             //Get Helper Instance
@@ -107,6 +130,14 @@ namespace MongoHead
             return dict;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="KeyFieldName"></param>
+        /// <param name="ValueFieldName"></param>
+        /// <param name="filter"></param>
+        /// <param name="UseAndLogic"></param>
+        /// <returns></returns>
         public Dictionary<string, string> GetKeyValueList(string KeyFieldName, string ValueFieldName, List<Filter> filter, bool UseAndLogic = true)
         {
             //Get Helper Instance
@@ -144,6 +175,11 @@ namespace MongoHead
 
         #region Get By Id
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public T GetById(string Id)
         {
             ObjectId id = new ObjectId(Id);
@@ -151,6 +187,11 @@ namespace MongoHead
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public T GetById(ObjectId Id)
         {
             //Get Helper Instance
@@ -162,30 +203,33 @@ namespace MongoHead
 
         #endregion
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ObjectToSave"></param>
+        /// <returns></returns>
         public ObjectId Save(T ObjectToSave)
         {
             //Get Helper Instance
             MongoDBHelper helper = new MongoDBHelper(this.config);
 
-            //TODO auto add date fields???
-            //check id value first.
-
             PropertyInfo idProperty = typeof(T).GetProperty(helper.IDFieldName);
-            ObjectId currentId = (ObjectId)idProperty.GetValue(ObjectToSave);
-            ObjectId emptyId = new ObjectId("000000000000000000000000");
+            PropertyInfo dateCreatedProperty = typeof(T).GetProperty(helper.DateUtcCreatedFieldName);
+            PropertyInfo dateModifiedProperty = typeof(T).GetProperty(helper.DateUtcModifiedFieldName);
+            PropertyInfo dateUtcOffsetProperty = typeof(T).GetProperty(helper.DateUtcOffsetFieldName);
 
-            PropertyInfo dateCreatedProperty = typeof(T).GetProperty(helper.DateCreatedFieldName);
-            PropertyInfo dateModifiedProperty = typeof(T).GetProperty(helper.DateModifiedFieldName);
+            ObjectId currentId = (ObjectId)idProperty.GetValue(ObjectToSave);//Get incoming object's Id value
+            ObjectId emptyId = new ObjectId();//Create an Empty Object Id with default value of {000000000000000000000000}
 
             DateTime currentTime = DateTime.UtcNow;
+            TimeSpan utcOffset = TimeZoneInfo.Local.BaseUtcOffset;
 
+            //check id value first.
             if (currentId == emptyId) //this operation is a new insert
             {
                 //set create and modify dates
                 dateCreatedProperty.SetValue(ObjectToSave, currentTime);
                 dateModifiedProperty.SetValue(ObjectToSave, currentTime);
-
             }
             else //this operation is a update
             {
@@ -193,11 +237,15 @@ namespace MongoHead
                 dateModifiedProperty.SetValue(ObjectToSave, currentTime);
             }
 
+            //set UTC offset
+            dateUtcOffsetProperty.SetValue(ObjectToSave, utcOffset);
+
             ObjectId newId = helper.Save(this.CollectionName, ObjectToSave);
 
-            PropertyInfo idProperty2 = typeof(T).GetProperty(helper.IDFieldName);
-            idProperty2.SetValue(ObjectToSave, newId);
+            //pass new id value to the incoming object
+            idProperty.SetValue(ObjectToSave, newId);
 
+            //also return new id
             return newId;
         }
 
