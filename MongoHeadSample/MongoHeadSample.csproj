@@ -14,11 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MongoHead\MongoHead.csproj" />
+    <Folder Include="Application\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\" />
+    <ProjectReference Include="..\MongoHead\MongoHead.csproj" />
   </ItemGroup>
 
 </Project>

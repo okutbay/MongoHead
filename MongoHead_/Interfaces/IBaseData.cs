@@ -4,11 +4,11 @@ using System.Text;
 
 using MongoDB.Bson;
 
-namespace MongoHead.Interfaces
+namespace MongoHead
 {
     public interface IBaseData<T>
     {
-        List<T> GetList();
+        List<T> GetAll();
         List<T> GetList(List<Filter> filter, bool UseAndLogic = true);
         Dictionary<string, string> GetKeyValueList(List<Filter> filter, bool UseAndLogic = true);
         Dictionary<string, string> GetKeyValueList(string KeyFieldName, string ValueFieldName, List<Filter> filter, bool UseAndLogic = true);

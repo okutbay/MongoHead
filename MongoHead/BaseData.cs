@@ -1,44 +1,104 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using MongoDB.Bson;
 using System.Reflection;
+using System.Text;
+using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using MongoHead.Interfaces;
 
 namespace MongoHead
 {
     public class BaseData<T> : IBaseData<T>
     {
-        private const string keyFieldNameConst = "_id";
+        readonly IConfiguration _configuration;
+        readonly MongoDBConfig config;
 
-        protected Type collectionType = null;
-        protected string collectionName = string.Empty;
 
-        public BaseData()
+        string CollectionName { get; set; }
+        
+
+        public BaseData(IConfiguration Configuration)
         {
-            collectionType = this.GetType();
-            collectionName = collectionType.Name;
+            this._configuration = Configuration;
+            //TODO bu keyler yok ise ne oluyor??? deneyelim
+
+            config = new MongoDBConfig(
+                _configuration["Settings:MongoDB:ConnectionString"],
+                _configuration["Settings:MongoDB:DefaultDatabaseName"]
+                );
+
+            this.CollectionName = typeof(T).Name;
         }
 
-        #region Get All
+        #region Delete
 
-        public List<T> GetAll()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public bool Delete(string Id)
         {
-            List<T> list = Helper.GetAll<T>(collectionName);
+            ObjectId id = new ObjectId(Id);
+            bool result = this.Delete(id);
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public bool Delete(ObjectId Id)
+        {
+            //Get Helper Instance
+            MongoDBHelper helper = new MongoDBHelper(this.config);
+
+            bool result = helper.Delete<T>(CollectionName, Id);
+            return result;
+        }
+
+        #endregion
+
+
+        #region Get List
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<T> GetList()
+        {
+            //Get Helper Instance
+            MongoDBHelper helper = new MongoDBHelper(this.config);
+
+            List<T> list = helper.GetList<T>(CollectionName);
             return list;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="UseAndLogic"></param>
+        /// <returns></returns>
         public List<T> GetList(List<Filter> filter, bool UseAndLogic = true)
         {
-            //List<T> foundItems = Helper.GetAllFiltered<T>(collectionName, filter, "", UseAndLogic);
-            //return foundItems;
+            //Get Helper Instance
+            MongoDBHelper helper = new MongoDBHelper(this.config);
 
-            return null;
+            List<T> foundItems = helper.GetList<T>(CollectionName, filter, "", UseAndLogic);
+            return foundItems;
         }
 
         public Dictionary<string, string> GetKeyValueList(List<Filter> filter, bool UseAndLogic = true)
         {
-            string keyFieldName = keyFieldNameConst;
-            string valueFieldName = string.Format("{0}Name", collectionName);
+            //Get Helper Instance
+            MongoDBHelper helper = new MongoDBHelper(this.config);
+
+            string keyFieldName = helper.IDFieldName;
+            string valueFieldName = $"{CollectionName}Name"; //string.Format("{0}Name", collectionName);
 
             Dictionary<string, string> dict;
 
@@ -49,36 +109,38 @@ namespace MongoHead
 
         public Dictionary<string, string> GetKeyValueList(string KeyFieldName, string ValueFieldName, List<Filter> filter, bool UseAndLogic = true)
         {
-            //List<T> foundItems = Helper.GetAllFiltered<T>(collectionName, filter, "", UseAndLogic);
+            //Get Helper Instance
+            MongoDBHelper helper = new MongoDBHelper(this.config);
 
-            //PropertyInfo idProperty = typeof(T).GetProperty(KeyFieldName);
-            //PropertyInfo nameProperty = typeof(T).GetProperty(ValueFieldName);
+            List<T> foundItems = helper.GetList<T>(CollectionName, filter, "", UseAndLogic);
 
-            //if (idProperty == null)
-            //{
-            //    throw new Exception(string.Format("Unable to reflect key property. please check entity \"{0}\" contains \"{1}\" property.", collectionName, KeyFieldName));
-            //}
+            PropertyInfo idProperty = typeof(T).GetProperty(KeyFieldName);
+            PropertyInfo nameProperty = typeof(T).GetProperty(ValueFieldName);
 
-            //if (nameProperty == null)
-            //{
-            //    throw new Exception(string.Format("Unable to reflect name property. please check entity \"{0}\" contains \"{1}\" property.", collectionName, ValueFieldName));
-            //}
+            if (idProperty == null)
+            {
+                throw new Exception(string.Format("Unable to reflect key property. please check entity \"{0}\" contains \"{1}\" property.", CollectionName, KeyFieldName));
+            }
 
-            //Dictionary<string, string> dict = new Dictionary<string, string>();
+            if (nameProperty == null)
+            {
+                throw new Exception(string.Format("Unable to reflect name property. please check entity \"{0}\" contains \"{1}\" property.", CollectionName, ValueFieldName));
+            }
 
-            //foreach (T item in foundItems)
-            //{
-            //    string key = idProperty.GetValue(item).ToString();
-            //    string value = nameProperty.GetValue(item).ToString();
-            //    dict.Add(key, value);
-            //}
+            Dictionary<string, string> dict = new Dictionary<string, string>();
 
-            //return dict;
+            foreach (T item in foundItems)
+            {
+                string key = idProperty.GetValue(item).ToString();
+                string value = nameProperty.GetValue(item).ToString();
+                dict.Add(key, value);
+            }
 
-            return null;
+            return dict;
         }
 
         #endregion
+
 
         #region Get By Id
 
@@ -91,45 +153,54 @@ namespace MongoHead
 
         public T GetById(ObjectId Id)
         {
-            //T foundItem = Helper.GetSingle<T>(collectionName, Id);
+            //Get Helper Instance
+            MongoDBHelper helper = new MongoDBHelper(this.config);
 
-            //return foundItem;
-
-            throw new Exception("not implemented");
-
+            T foundItem = helper.Get<T>(CollectionName, Id);
+            return foundItem;
         }
 
         #endregion
+
 
         public ObjectId Save(T ObjectToSave)
         {
-            //ObjectId newId = Helper.Save(collectionName, ObjectToSave);
+            //Get Helper Instance
+            MongoDBHelper helper = new MongoDBHelper(this.config);
 
-            //PropertyInfo idProperty = typeof(T).GetProperty(keyFieldNameConst);
-            //idProperty.SetValue(ObjectToSave, newId);
+            //TODO auto add date fields???
+            //check id value first.
 
-            //return newId;
+            PropertyInfo idProperty = typeof(T).GetProperty(helper.IDFieldName);
+            ObjectId currentId = (ObjectId)idProperty.GetValue(ObjectToSave);
+            ObjectId emptyId = new ObjectId("000000000000000000000000");
 
-            throw new Exception("not implemented");
+            PropertyInfo dateCreatedProperty = typeof(T).GetProperty(helper.DateCreatedFieldName);
+            PropertyInfo dateModifiedProperty = typeof(T).GetProperty(helper.DateModifiedFieldName);
+
+            DateTime currentTime = DateTime.UtcNow;
+
+            if (currentId == emptyId) //this operation is a new insert
+            {
+                //set create and modify dates
+                dateCreatedProperty.SetValue(ObjectToSave, currentTime);
+                dateModifiedProperty.SetValue(ObjectToSave, currentTime);
+
+            }
+            else //this operation is a update
+            {
+                //set only modify date
+                dateModifiedProperty.SetValue(ObjectToSave, currentTime);
+            }
+
+            ObjectId newId = helper.Save(this.CollectionName, ObjectToSave);
+
+            PropertyInfo idProperty2 = typeof(T).GetProperty(helper.IDFieldName);
+            idProperty2.SetValue(ObjectToSave, newId);
+
+            return newId;
         }
 
-        #region Delete
 
-        public bool Delete(string Id)
-        {
-            ObjectId id = new ObjectId(Id);
-            bool result = this.Delete(id);
-            return result;
-        }
-
-        public bool Delete(ObjectId Id)
-        {
-            //bool result = Helper.DeleteSingle<T>(collectionName, Id);
-            //return result;
-
-            throw new Exception("not implemented");
-        }
-
-        #endregion
     }
 }

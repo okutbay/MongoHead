@@ -21,6 +21,8 @@ namespace MongoHeadSample.Data
             _context = new SampleContext(appSettings);
         }
 
+
+
         public async Task<IEnumerable<Sample>> GetAllSamples()
         {
             try

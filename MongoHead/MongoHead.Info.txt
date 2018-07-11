@@ -1,0 +1,6 @@
+﻿0.1.0.0
+- Initial version
+- Migrating existing methods to this project
+- New helper methods implemented
+- Base data methods added to use helper methods. BaseData class implements IBaseData
+- BaseEntity class added to shape entity base properties
