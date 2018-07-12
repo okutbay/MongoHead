@@ -12,6 +12,5 @@ namespace MongoHead
         public bool _IsActive { get; set; }
         public DateTime _DateUtcCreated { get; set; }
         public DateTime _DateUtcModified { get; set; }
-        public TimeSpan _DateUtcOffset { get; set; }
     }
 }

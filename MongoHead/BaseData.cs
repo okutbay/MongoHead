@@ -216,13 +216,11 @@ namespace MongoHead
             PropertyInfo idProperty = typeof(T).GetProperty(helper.IDFieldName);
             PropertyInfo dateCreatedProperty = typeof(T).GetProperty(helper.DateUtcCreatedFieldName);
             PropertyInfo dateModifiedProperty = typeof(T).GetProperty(helper.DateUtcModifiedFieldName);
-            PropertyInfo dateUtcOffsetProperty = typeof(T).GetProperty(helper.DateUtcOffsetFieldName);
 
             ObjectId currentId = (ObjectId)idProperty.GetValue(ObjectToSave);//Get incoming object's Id value
             ObjectId emptyId = new ObjectId();//Create an Empty Object Id with default value of {000000000000000000000000}
 
             DateTime currentTime = DateTime.UtcNow;
-            TimeSpan utcOffset = TimeZoneInfo.Local.BaseUtcOffset;
 
             //check id value first.
             if (currentId == emptyId) //this operation is a new insert
@@ -236,9 +234,6 @@ namespace MongoHead
                 //set only modify date
                 dateModifiedProperty.SetValue(ObjectToSave, currentTime);
             }
-
-            //set UTC offset
-            dateUtcOffsetProperty.SetValue(ObjectToSave, utcOffset);
 
             ObjectId newId = helper.Save(this.CollectionName, ObjectToSave);
 
