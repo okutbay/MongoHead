@@ -29,11 +29,6 @@ namespace MongoHead
         public string DateUtcModifiedFieldName { get { return "_DateUtcModified"; } }
 
         /// <summary>
-        /// "DateModifiedFieldName" constant is used to access specific "_DateModified" field property name of the base entity to access it in run-time for insert, update or delete purposes
-        /// </summary>
-        public string DateUtcOffsetFieldName { get { return "_DateUtcOffset"; } }
-
-        /// <summary>
         /// "IsActiveFieldName" constant is used to access specific "_IsActive" field property name of the base entity to access it in run-time for insert, update or delete purposes
         /// </summary>
         public string IsActiveFieldName { get { return "_IsActive"; } }
@@ -166,7 +161,6 @@ namespace MongoHead
             return GetList<T>(CollectionName, Filter, string.Empty, true);
         }
 
-
         /// <summary>
         /// 
         /// </summary>
@@ -179,7 +173,6 @@ namespace MongoHead
         {
             return GetList<T>(CollectionName, Filter, dbName, true);
         }
-
 
         /// <summary>
         /// 
@@ -291,7 +284,6 @@ namespace MongoHead
             return Get<T>(CollectionName, Filter, string.Empty, true);
         }
 
-
         /// <summary>
         /// 
         /// </summary>
@@ -304,7 +296,6 @@ namespace MongoHead
         {
             return Get<T>(CollectionName, Filter, dbName, true);
         }
-
 
         /// <summary>
         /// 
@@ -441,7 +432,6 @@ namespace MongoHead
         }
 
         #endregion
-
 
     }
 
