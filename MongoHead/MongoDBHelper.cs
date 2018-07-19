@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-
+using System.Threading.Tasks;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 
@@ -12,6 +14,12 @@ namespace MongoHead
     public class MongoDBHelper
     {
         readonly MongoDBConfig _Config;
+        private IMongoDatabase Db { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string CollectionName { get; set; }
 
         /// <summary>
         /// "IDFieldName" constant is used to access specific "_id" field property name of the base entity to access it in run-time for insert, update or delete purposes
@@ -33,34 +41,32 @@ namespace MongoHead
         /// </summary>
         public string IsActiveFieldName { get { return "_IsActive"; } }
 
-        public MongoDBHelper(MongoDBConfig Config)
+        /// <summary>
+        /// Construtor
+        /// </summary>
+        /// <param name="Config"></param>
+        /// <param name="CollectionName"></param>
+        public MongoDBHelper(MongoDBConfig Config, string CollectionName)
         {
             _Config = Config;
+            this.CollectionName = CollectionName;
+
+            this.Db = this.GetDBInstance();
+
+            
         }
 
         /// <summary>
-        /// Returns an instance of Mongo Database for Prefferred or default database name. 
+        /// Returns an instance of Mongo Database with database name defined in the config object. 
         /// </summary>
-        /// <param name="PrefferedDBName">This parameter is used to swith to another database then default database. 
-        /// With this parameter you do not have use default database to store your collections. 
-        /// Leave empty to use default database name defined in the application settings.</param>
         /// <returns></returns>
-        private IMongoDatabase GetDBInstance(string PrefferedDBName = "")
+        private IMongoDatabase GetDBInstance()
         {
             string connectionString = string.Empty;
             string dbName = string.Empty;
 
             connectionString = this._Config.ConnectionString;
-
-            //if no specific database name is given operations will be carried on default database 
-            if (!string.IsNullOrEmpty(PrefferedDBName))
-            {
-                dbName = PrefferedDBName;
-            }
-            else
-            {
-                dbName = this._Config.DefaultDatabaseName;
-            }
+            dbName = this._Config.DatabaseName;
 
             if (string.IsNullOrEmpty(connectionString))
             {
@@ -73,7 +79,7 @@ namespace MongoHead
             }
 
             MongoClient client = new MongoClient(connectionString);
-            IMongoDatabase _db = client.GetDatabase(dbName);//we are not storing the dbname to instance. Every helper method can work on different databases
+            IMongoDatabase _db = client.GetDatabase(dbName);
 
             return _db;
         }
@@ -85,37 +91,31 @@ namespace MongoHead
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="CollectionName"></param>
         /// <param name="ObjectToSave"></param>
-        /// <param name="dbName"></param>
         /// <returns></returns>
-        public ObjectId Save(string CollectionName, object ObjectToSave, string dbName = "")
+        public ObjectId Save(object ObjectToSave)
         {
-            IMongoDatabase db = this.GetDBInstance(dbName);
-            IMongoCollection<BsonDocument> collection = db.GetCollection<BsonDocument>(CollectionName);
+            IMongoCollection<BsonDocument> collection = Db.GetCollection<BsonDocument>(CollectionName);
 
             BsonDocument document = ObjectToSave.ToBsonDocument(); //conversion to BsonDocument adds _t as type of the object to the 
             document.Remove("_t"); //we dont want this just remove
 
-            ObjectId newId = this.Save(CollectionName, document, dbName);
+            ObjectId newId = this.Save(document);
             return newId;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="CollectionName"></param>
-        /// <param name="ObjectToSave"></param>
-        /// <param name="dbName"></param>
+        /// <param name="BsonDocumentToSave"></param>
         /// <returns></returns>
-        public ObjectId Save(string CollectionName, BsonDocument ObjectToSave, string dbName = "")
+        public ObjectId Save(BsonDocument BsonDocumentToSave)
         {
-            IMongoDatabase db = this.GetDBInstance(dbName);
-            IMongoCollection<BsonDocument> collection = db.GetCollection<BsonDocument>(CollectionName);
+            IMongoCollection<BsonDocument> collection = Db.GetCollection<BsonDocument>(CollectionName);
 
-            collection.InsertOne(ObjectToSave);
+            collection.InsertOne(BsonDocumentToSave);
 
-            string id = ObjectToSave[IDFieldName].ToString();
+            string id = BsonDocumentToSave[IDFieldName].ToString();
 
             ObjectId newId = new ObjectId(id);
             return newId;
@@ -124,22 +124,23 @@ namespace MongoHead
         #endregion
 
 
-        // GET DATA METHODS **************************************************************
-        #region GET
+        // GET LIST DATA METHODS **************************************************************
+        #region GET LIST
 
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="CollectionName"></param>
-        /// <param name="dbName"></param>
         /// <returns></returns>
-        public List<T> GetList<T>(string CollectionName, string dbName = "")
+        public List<T> GetList<T>()
         {
-            IMongoDatabase db = this.GetDBInstance(dbName);
-            IMongoCollection<T> collection = db.GetCollection<T>(CollectionName);
+            //TODO bunun icinde asagidaki gibi bir cagriyla cozebilir miyiz test edelim
+            //return GetList<T>(null);
+
+            IMongoCollection<T> collection = Db.GetCollection<T>(CollectionName);
 
             var filter = new BsonDocument();
+
             List<T> list = new List<T>();
             foreach (var item in collection.Find(filter).ToEnumerable())
             {
@@ -147,59 +148,31 @@ namespace MongoHead
             }
 
             return list;
+
+            
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="CollectionName"></param>
         /// <param name="Filter"></param>
         /// <returns></returns>
-        public List<T> GetList<T>(string CollectionName, List<Filter> Filter)
+        public List<T> GetList<T>(List<Filter> Filter)
         {
-            return GetList<T>(CollectionName, Filter, string.Empty, true);
+            return GetList<T>(Filter);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="CollectionName"></param>
-        /// <param name="Filter"></param>
-        /// <param name="dbName"></param>
-        /// <returns></returns>
-        public List<T> GetList<T>(string CollectionName, List<Filter> Filter, string dbName = "")
-        {
-            return GetList<T>(CollectionName, Filter, dbName, true);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="CollectionName"></param>
         /// <param name="Filter"></param>
         /// <param name="UseAndLogic"></param>
         /// <returns></returns>
-        public List<T> GetList<T>(string CollectionName, List<Filter> Filter, bool UseAndLogic = true)
+        public List<T> GetList<T>(List<Filter> Filter, bool UseAndLogic = true)
         {
-            return GetList<T>(CollectionName, Filter, string.Empty, UseAndLogic);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="CollectionName"></param>
-        /// <param name="Filter"></param>
-        /// <param name="dbName"></param>
-        /// <param name="UseAndLogic"></param>
-        /// <returns></returns>
-        public List<T> GetList<T>(string CollectionName, List<Filter> Filter, string dbName = "", bool UseAndLogic = true)
-        {
-            IMongoDatabase db = this.GetDBInstance(dbName);
-            IMongoCollection<T> collection = db.GetCollection<T>(CollectionName);
+            IMongoCollection<T> collection = Db.GetCollection<T>(CollectionName);
 
             var exp = ExpressionBuilder.GetExpression<T>(Filter, UseAndLogic);
             var query = Builders<T>.Filter.Where(exp);
@@ -215,18 +188,51 @@ namespace MongoHead
             return list;
         }
 
+        #endregion
+
+
+        // GET DATA METHODS **************************************************************
+        #region GET
+
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="CollectionName"></param>
-        /// <param name="_id"></param>
-        /// <param name="dbName"></param>
+        /// <param name="Filter"></param>
         /// <returns></returns>
-        public T Get<T>(string CollectionName, ObjectId _id, string dbName = "")
+        public T Get<T>(List<Filter> Filter)
         {
-            IMongoDatabase db = this.GetDBInstance(dbName);
-            IMongoCollection<T> collection = db.GetCollection<T>(CollectionName);
+            return Get<T>(Filter, true);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="Filter"></param>
+        /// <param name="UseAndLogic"></param>
+        /// <returns></returns>
+        public T Get<T>(List<Filter> Filter, bool UseAndLogic = true)
+        {
+            IMongoCollection<T> collection = Db.GetCollection<T>(CollectionName);
+
+            var exp = ExpressionBuilder.GetExpression<T>(Filter, UseAndLogic);
+            var query = Builders<T>.Filter.Where(exp);
+
+            var foundItem = collection.Find(query).FirstOrDefault();
+
+            return foundItem;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="_id"></param>
+        /// <returns></returns>
+        public T GetByObjectId<T>(ObjectId _id)
+        {
+            IMongoCollection<T> collection = Db.GetCollection<T>(CollectionName);
 
             var itemParameter = Expression.Parameter(typeof(T), "item");
             var whereExpression = Expression.Lambda<Func<T, bool>>
@@ -250,15 +256,12 @@ namespace MongoHead
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="CollectionName"></param>
         /// <param name="FieldName"></param>
         /// <param name="Value"></param>
-        /// <param name="dbName"></param>
         /// <returns></returns>
-        public T Get<T>(string CollectionName, string FieldName, object Value, string dbName = "")
+        public T GetByFieldValue<T>(string FieldName, object Value)
         {
-            IMongoDatabase db = this.GetDBInstance(dbName);
-            IMongoCollection<T> collection = db.GetCollection<T>(CollectionName);
+            IMongoCollection<T> collection = Db.GetCollection<T>(CollectionName);
 
             List<Filter> filter = new List<Filter>()
             {
@@ -276,74 +279,14 @@ namespace MongoHead
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="CollectionName"></param>
-        /// <param name="Filter"></param>
-        /// <returns></returns>
-        public T Get<T>(string CollectionName, List<Filter> Filter)
-        {
-            return Get<T>(CollectionName, Filter, string.Empty, true);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="CollectionName"></param>
-        /// <param name="Filter"></param>
-        /// <param name="dbName"></param>
-        /// <returns></returns>
-        public T Get<T>(string CollectionName, List<Filter> Filter, string dbName = "")
-        {
-            return Get<T>(CollectionName, Filter, dbName, true);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="CollectionName"></param>
-        /// <param name="Filter"></param>
-        /// <param name="UseAndLogic"></param>
-        /// <returns></returns>
-        public T Get<T>(string CollectionName, List<Filter> Filter, bool UseAndLogic = true)
-        {
-            return Get<T>(CollectionName, Filter, string.Empty, UseAndLogic);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="CollectionName"></param>
-        /// <param name="Filter"></param>
-        /// <param name="dbName"></param>
-        /// <param name="UseAndLogic"></param>
-        /// <returns></returns>
-        public T Get<T>(string CollectionName, List<Filter> Filter, string dbName = "", bool UseAndLogic = true)
-        {
-            IMongoDatabase db = this.GetDBInstance(dbName);
-            IMongoCollection<T> collection = db.GetCollection<T>(CollectionName);
-
-            var exp = ExpressionBuilder.GetExpression<T>(Filter, UseAndLogic);
-            var query = Builders<T>.Filter.Where(exp);
-
-            var foundItem = (T)collection.Find(query);
-
-            return foundItem;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="CollectionName"></param>
         /// <param name="FieldName"></param>
-        /// <param name="dbName"></param>
         /// <returns></returns>
-        public T GetLast<T>(string CollectionName, string FieldName, string dbName = "")
+        public T GetLast<T>(string FieldName)
         {
-            IMongoDatabase db = this.GetDBInstance(dbName);
-            IMongoCollection<T> collection = db.GetCollection<T>(CollectionName);
+            //TODO bunun icinde asagidaki gibi bir cagriyla cozebilir miyiz test edelim
+            //return GetLast<T>(null, FieldName);
+
+            IMongoCollection<T> collection = Db.GetCollection<T>(CollectionName);
 
             var filter = new BsonDocument();
             var sortBy = Builders<T>.Sort.Descending(FieldName);
@@ -356,30 +299,25 @@ namespace MongoHead
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="CollectionName"></param>
         /// <param name="Filter"></param>
         /// <param name="FieldName"></param>
-        /// <param name="dbName"></param>
         /// <returns></returns>
-        public T GetLast<T>(string CollectionName, List<Filter> Filter, string FieldName, string dbName = "")
+        public T GetLast<T>(List<Filter> Filter, string FieldName)
         {
-            return GetLast<T>(CollectionName, Filter, FieldName, dbName, true);
+            return GetLast<T>(Filter, FieldName, true);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="CollectionName"></param>
         /// <param name="Filter"></param>
         /// <param name="FieldName"></param>
-        /// <param name="dbName"></param>
         /// <param name="UseAndLogic"></param>
         /// <returns></returns>
-        public T GetLast<T>(string CollectionName, List<Filter> Filter, string FieldName, string dbName, bool UseAndLogic = true)
+        public T GetLast<T>(List<Filter> Filter, string FieldName, bool UseAndLogic = true)
         {
-            IMongoDatabase db = this.GetDBInstance(dbName);
-            IMongoCollection<T> collection = db.GetCollection<T>(CollectionName);
+            IMongoCollection<T> collection = Db.GetCollection<T>(CollectionName);
 
             var exp = ExpressionBuilder.GetExpression<T>(Filter, UseAndLogic);
             var query = Builders<T>.Filter.Where(exp);
@@ -399,16 +337,13 @@ namespace MongoHead
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="CollectionName"></param>
         /// <param name="_id"></param>
-        /// <param name="dbName"></param>
         /// <returns></returns>
-        public bool Delete<T>(string CollectionName, ObjectId _id, string dbName = "")
+        public bool Delete<T>(ObjectId _id)
         {
             try
             {
-                IMongoDatabase db = this.GetDBInstance(dbName);
-                IMongoCollection<T> collection = db.GetCollection<T>(CollectionName);
+                IMongoCollection<T> collection = Db.GetCollection<T>(CollectionName);
 
                 List<Filter> filter = new List<Filter>()
                 {
@@ -436,29 +371,29 @@ namespace MongoHead
     }
 
     /// <summary>
-    /// 
+    /// Used to store parameter values to connect and operate on MongoDB
     /// </summary>
     public class MongoDBConfig
     {
         /// <summary>
-        /// 
+        /// This parameter must contain MongoDB connection string
         /// </summary>
         public string ConnectionString { get; set; }
 
         /// <summary>
-        /// 
+        /// This is the database name to work with
         /// </summary>
-        public string DefaultDatabaseName { get; set; }
+        public string DatabaseName { get; set; }
 
         /// <summary>
-        /// 
+        /// Default construtor with two required parameteters
         /// </summary>
-        /// <param name="ConnectionString"></param>
-        /// <param name="DefaultDatabaseName"></param>
-        public MongoDBConfig(string ConnectionString, string DefaultDatabaseName)
+        /// <param name="ConnectionString">Check class definition for details</param>
+        /// <param name="DatabaseName">Check class definition for details</param>
+        public MongoDBConfig(string ConnectionString, string DatabaseName)
         {
             this.ConnectionString = ConnectionString;
-            this.DefaultDatabaseName = DefaultDatabaseName;
+            this.DatabaseName = DatabaseName;
         }
     }
 }

@@ -70,9 +70,9 @@ namespace MongoHead
         public bool Delete(ObjectId Id)
         {
             //Get Helper Instance
-            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig);
+            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig, this.CollectionName);
 
-            bool result = helper.Delete<T>(CollectionName, Id);
+            bool result = helper.Delete<T>(Id);
             return result;
         }
 
@@ -88,9 +88,9 @@ namespace MongoHead
         public List<T> GetList()
         {
             //Get Helper Instance
-            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig);
+            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig, this.CollectionName);
 
-            List<T> list = helper.GetList<T>(CollectionName);
+            List<T> list = helper.GetList<T>();
             return list;
         }
 
@@ -103,9 +103,9 @@ namespace MongoHead
         public List<T> GetList(List<Filter> filter, bool UseAndLogic = true)
         {
             //Get Helper Instance
-            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig);
+            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig, this.CollectionName);
 
-            List<T> foundItems = helper.GetList<T>(CollectionName, filter, "", UseAndLogic);
+            List<T> foundItems = helper.GetList<T>(filter, UseAndLogic);
             return foundItems;
         }
 
@@ -118,7 +118,7 @@ namespace MongoHead
         public Dictionary<string, string> GetKeyValueList(List<Filter> filter, bool UseAndLogic = true)
         {
             //Get Helper Instance
-            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig);
+            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig, this.CollectionName);
 
             string keyFieldName = helper.IDFieldName;
             string valueFieldName = $"{CollectionName}Name"; //string.Format("{0}Name", collectionName);
@@ -141,21 +141,21 @@ namespace MongoHead
         public Dictionary<string, string> GetKeyValueList(string KeyFieldName, string ValueFieldName, List<Filter> filter, bool UseAndLogic = true)
         {
             //Get Helper Instance
-            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig);
+            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig, this.CollectionName);
 
-            List<T> foundItems = helper.GetList<T>(CollectionName, filter, "", UseAndLogic);
+            List<T> foundItems = helper.GetList<T>(filter, UseAndLogic);
 
             PropertyInfo idProperty = typeof(T).GetProperty(KeyFieldName);
             PropertyInfo nameProperty = typeof(T).GetProperty(ValueFieldName);
 
             if (idProperty == null)
             {
-                throw new Exception(string.Format("Unable to reflect key property. please check entity \"{0}\" contains \"{1}\" property.", CollectionName, KeyFieldName));
+                throw new Exception(string.Format("Unable to reflect key property. please check entity \"{0}\" contains \"{1}\" property.", this.CollectionName, KeyFieldName));
             }
 
             if (nameProperty == null)
             {
-                throw new Exception(string.Format("Unable to reflect name property. please check entity \"{0}\" contains \"{1}\" property.", CollectionName, ValueFieldName));
+                throw new Exception(string.Format("Unable to reflect name property. please check entity \"{0}\" contains \"{1}\" property.", this.CollectionName, ValueFieldName));
             }
 
             Dictionary<string, string> dict = new Dictionary<string, string>();
@@ -195,9 +195,9 @@ namespace MongoHead
         public T GetById(ObjectId Id)
         {
             //Get Helper Instance
-            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig);
+            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig, this.CollectionName);
 
-            T foundItem = helper.Get<T>(CollectionName, Id);
+            T foundItem = helper.GetByObjectId<T>(Id);
             return foundItem;
         }
 
@@ -211,7 +211,7 @@ namespace MongoHead
         public ObjectId Save(T ObjectToSave)
         {
             //Get Helper Instance
-            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig);
+            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig, this.CollectionName);
 
             PropertyInfo idProperty = typeof(T).GetProperty(helper.IDFieldName);
             PropertyInfo dateCreatedProperty = typeof(T).GetProperty(helper.DateUtcCreatedFieldName);
@@ -235,7 +235,7 @@ namespace MongoHead
                 dateModifiedProperty.SetValue(ObjectToSave, currentTime);
             }
 
-            ObjectId newId = helper.Save(this.CollectionName, ObjectToSave);
+            ObjectId newId = helper.Save(ObjectToSave);
 
             //pass new id value to the incoming object
             idProperty.SetValue(ObjectToSave, newId);

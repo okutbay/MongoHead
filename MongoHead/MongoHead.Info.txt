@@ -5,3 +5,5 @@
 - Base data methods added to use helper methods. BaseData class implements IBaseData
 - BaseEntity class added to shape entity base properties
 - BaseEntity dates are converted to UTC, and UTC offset is added as a property. Also BaseData and MongoDBHelper class is updated to reflect this change
+- MongoDBHelper methods refactoring and bug fixes
+- MongoDBHelper CollectionName method parameter is moved as a class property.
