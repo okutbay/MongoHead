@@ -45,15 +45,14 @@ namespace MongoHead
         /// Construtor
         /// </summary>
         /// <param name="Config"></param>
-        /// <param name="CollectionName"></param>
-        public MongoDBHelper(MongoDBConfig Config, string CollectionName)
+        /// <param name="EntityType"></param>
+        public MongoDBHelper(MongoDBConfig Config, Type EntityType)
         {
             _Config = Config;
-            this.CollectionName = CollectionName;
+
+            this.CollectionName = EntityType.Name;
 
             this.Db = this.GetDBInstance();
-
-            
         }
 
         /// <summary>

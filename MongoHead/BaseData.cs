@@ -50,7 +50,7 @@ namespace MongoHead
             this.CollectionName = typeof(T).Name;
 
             //Set Helper Instance
-            this.helper = new MongoDBHelper(this.MongoDBConfig, this.CollectionName);
+            this.helper = new MongoDBHelper(this.MongoDBConfig, typeof(T));
         }
 
         #region Delete

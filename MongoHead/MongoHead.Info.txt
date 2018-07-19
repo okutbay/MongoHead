@@ -9,3 +9,4 @@
 - MongoDBHelper CollectionName method parameter is moved as a class property.
 - BaseData refactoring according to MongoDBHelper changes
 - BaseData MongoDBHelper instance moved a property and created in the constructor
+- MongoDBHelper constructor parameter CollectionName is changed to EntityType to reflect CollectionName from the Entity Type's name. BaseData helper instace creation is changed according to this.
