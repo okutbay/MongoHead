@@ -7,3 +7,4 @@
 - BaseEntity dates are converted to UTC, and UTC offset is added as a property. Also BaseData and MongoDBHelper class is updated to reflect this change
 - MongoDBHelper methods refactoring and bug fixes
 - MongoDBHelper CollectionName method parameter is moved as a class property.
+- BaseData refactoring according to MongoDBHelper changes
