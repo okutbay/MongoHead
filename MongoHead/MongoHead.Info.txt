@@ -8,3 +8,4 @@
 - MongoDBHelper methods refactoring and bug fixes
 - MongoDBHelper CollectionName method parameter is moved as a class property.
 - BaseData refactoring according to MongoDBHelper changes
+- BaseData MongoDBHelper instance moved a property and created in the constructor

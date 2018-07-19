@@ -35,6 +35,8 @@ namespace MongoHead
 
         string CollectionName { get; set; }
 
+        MongoDBHelper helper { get; set; }
+
         public BaseData(IConfiguration Configuration)
         {
             this._configuration = Configuration;
@@ -46,6 +48,9 @@ namespace MongoHead
                 );
 
             this.CollectionName = typeof(T).Name;
+
+            //Set Helper Instance
+            this.helper = new MongoDBHelper(this.MongoDBConfig, this.CollectionName);
         }
 
         #region Delete
@@ -69,10 +74,9 @@ namespace MongoHead
         /// <returns></returns>
         public bool Delete(ObjectId Id)
         {
-            //Get Helper Instance
-            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig, this.CollectionName);
 
-            bool result = helper.Delete<T>(Id);
+
+            bool result = this.helper.Delete<T>(Id);
             return result;
         }
 
@@ -87,9 +91,6 @@ namespace MongoHead
         /// <returns></returns>
         public List<T> GetList()
         {
-            //Get Helper Instance
-            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig, this.CollectionName);
-
             List<T> list = helper.GetList<T>();
             return list;
         }
@@ -102,9 +103,6 @@ namespace MongoHead
         /// <returns></returns>
         public List<T> GetList(List<Filter> filter, bool UseAndLogic = true)
         {
-            //Get Helper Instance
-            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig, this.CollectionName);
-
             List<T> foundItems = helper.GetList<T>(filter, UseAndLogic);
             return foundItems;
         }
@@ -117,9 +115,6 @@ namespace MongoHead
         /// <returns></returns>
         public Dictionary<string, string> GetKeyValueList(List<Filter> filter, bool UseAndLogic = true)
         {
-            //Get Helper Instance
-            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig, this.CollectionName);
-
             string keyFieldName = helper.IDFieldName;
             string valueFieldName = $"{CollectionName}Name"; //string.Format("{0}Name", collectionName);
 
@@ -140,9 +135,6 @@ namespace MongoHead
         /// <returns></returns>
         public Dictionary<string, string> GetKeyValueList(string KeyFieldName, string ValueFieldName, List<Filter> filter, bool UseAndLogic = true)
         {
-            //Get Helper Instance
-            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig, this.CollectionName);
-
             List<T> foundItems = helper.GetList<T>(filter, UseAndLogic);
 
             PropertyInfo idProperty = typeof(T).GetProperty(KeyFieldName);
@@ -194,9 +186,6 @@ namespace MongoHead
         /// <returns></returns>
         public T GetById(ObjectId Id)
         {
-            //Get Helper Instance
-            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig, this.CollectionName);
-
             T foundItem = helper.GetByObjectId<T>(Id);
             return foundItem;
         }
@@ -204,15 +193,12 @@ namespace MongoHead
         #endregion
 
         /// <summary>
-        /// 
+        /// Inserts or updates
         /// </summary>
         /// <param name="ObjectToSave"></param>
         /// <returns></returns>
         public ObjectId Save(T ObjectToSave)
         {
-            //Get Helper Instance
-            MongoDBHelper helper = new MongoDBHelper(this.MongoDBConfig, this.CollectionName);
-
             PropertyInfo idProperty = typeof(T).GetProperty(helper.IDFieldName);
             PropertyInfo dateCreatedProperty = typeof(T).GetProperty(helper.DateUtcCreatedFieldName);
             PropertyInfo dateModifiedProperty = typeof(T).GetProperty(helper.DateUtcModifiedFieldName);
