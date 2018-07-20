@@ -3,10 +3,10 @@ Provides the layer for MongoDB operations over .NET driver 2.7.0. Also MongoHead
 
 ## Dependencies
 Here is the list of installed NuGet packages and versions
-* MongoDB.Driver (v2.7.0)
-* Microsoft.NETCore.App (v2.0.0)
-* Microsoft.Extensions.Options (v2.1.1)
-* Microsoft.Extensions.Configuration (v2.1.1)
+1. MongoDB.Driver (v2.7.0)
+1. Microsoft.NETCore.App (v2.0.0)
+1. Microsoft.Extensions.Options (v2.1.1)
+1. Microsoft.Extensions.Configuration (v2.1.1)
 
 ## Classes
 ### MongoDBHelper
@@ -37,7 +37,7 @@ Bases a foundation for your entities by providing base properties like id, date 
 Add Mongo DB settings to you appsettings.json setting file
 
 Sample JSON settings
-```csharp
+```C#
 {
   "MongoDBConfig": {
     "ConnectionString": "mongodb://localhost",
