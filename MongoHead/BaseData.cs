@@ -37,6 +37,26 @@ namespace MongoHead
 
         MongoDBHelper helper { get; set; }
 
+        /// <summary>
+        /// "IDFieldName" constant is used to access specific "_id" field property name of the base entity to access it in run-time for insert, update or delete purposes
+        /// </summary>
+        public string IDFieldName { get { return MongoDBHelper.BsonDocumentIDFieldName; } }
+
+        /// <summary>
+        /// "DateCreatedFieldName" constant is used to access specific "_DateCreated" field property name of the base entity to access it in run-time for insert, update or delete purposes
+        /// </summary>
+        public string DateUtcCreatedFieldName { get { return "_DateUtcCreated"; } }
+
+        /// <summary>
+        /// "DateModifiedFieldName" constant is used to access specific "_DateModified" field property name of the base entity to access it in run-time for insert, update or delete purposes
+        /// </summary>
+        public string DateUtcModifiedFieldName { get { return "_DateUtcModified"; } }
+
+        /// <summary>
+        /// "IsActiveFieldName" constant is used to access specific "_IsActive" field property name of the base entity to access it in run-time for insert, update or delete purposes
+        /// </summary>
+        public string IsActiveFieldName { get { return "_IsActive"; } }
+
         public BaseData(IConfiguration Configuration)
         {
             this._configuration = Configuration;
@@ -115,7 +135,7 @@ namespace MongoHead
         /// <returns></returns>
         public Dictionary<string, string> GetKeyValueList(List<Filter> filter, bool UseAndLogic = true)
         {
-            string keyFieldName = helper.IDFieldName;
+            string keyFieldName = this.IDFieldName;
             string valueFieldName = $"{CollectionName}Name"; //string.Format("{0}Name", collectionName);
 
             Dictionary<string, string> dict;
@@ -199,9 +219,9 @@ namespace MongoHead
         /// <returns></returns>
         public ObjectId Save(T ObjectToSave)
         {
-            PropertyInfo idProperty = typeof(T).GetProperty(helper.IDFieldName);
-            PropertyInfo dateCreatedProperty = typeof(T).GetProperty(helper.DateUtcCreatedFieldName);
-            PropertyInfo dateModifiedProperty = typeof(T).GetProperty(helper.DateUtcModifiedFieldName);
+            PropertyInfo idProperty = typeof(T).GetProperty(this.IDFieldName);
+            PropertyInfo dateCreatedProperty = typeof(T).GetProperty(this.DateUtcCreatedFieldName);
+            PropertyInfo dateModifiedProperty = typeof(T).GetProperty(this.DateUtcModifiedFieldName);
 
             ObjectId currentId = (ObjectId)idProperty.GetValue(ObjectToSave);//Get incoming object's Id value
             ObjectId emptyId = new ObjectId();//Create an Empty Object Id with default value of {000000000000000000000000}
