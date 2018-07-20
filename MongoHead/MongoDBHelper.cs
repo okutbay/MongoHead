@@ -371,9 +371,21 @@ namespace MongoHead
 
     /// <summary>
     /// Used to store parameter values to connect and operate on MongoDB
+    /// 
+    /// This class also contains KeyName static properties to access values of the settings file
     /// </summary>
     public class MongoDBConfig
     {
+        /// <summary>
+        /// Key name for JSON Settings file
+        /// </summary>
+        public static string KeyNameConnectionString = "MongoDBConfig:ConnectionString";
+
+        /// <summary>
+        /// Key name for JSON Settings file
+        /// </summary>
+        public static string KeyNameDatabaseName = "MongoDBConfig:DatabaseName";
+
         /// <summary>
         /// This parameter must contain MongoDB connection string
         /// </summary>
