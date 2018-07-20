@@ -94,12 +94,10 @@ namespace MongoHead
         /// <returns></returns>
         public ObjectId Save(object ObjectToSave)
         {
-            IMongoCollection<BsonDocument> collection = Db.GetCollection<BsonDocument>(CollectionName);
-
             BsonDocument document = ObjectToSave.ToBsonDocument(); //conversion to BsonDocument adds _t as type of the object to the 
             document.Remove("_t"); //we dont want this just remove
-
             ObjectId newId = this.Save(document);
+
             return newId;
         }
 
@@ -115,8 +113,8 @@ namespace MongoHead
             collection.InsertOne(BsonDocumentToSave);
 
             string id = BsonDocumentToSave[IDFieldName].ToString();
-
             ObjectId newId = new ObjectId(id);
+
             return newId;
         }
 
