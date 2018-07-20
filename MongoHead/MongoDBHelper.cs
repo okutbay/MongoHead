@@ -22,24 +22,9 @@ namespace MongoHead
         public string CollectionName { get; set; }
 
         /// <summary>
-        /// "IDFieldName" constant is used to access specific "_id" field property name of the base entity to access it in run-time for insert, update or delete purposes
+        /// "BsonDocumentIDFieldName" is used to access specific "_id" field property name of the BSON document to access it in run-time for insert, update or delete purposes
         /// </summary>
-        public string IDFieldName { get { return "_id"; } }
-
-        /// <summary>
-        /// "DateCreatedFieldName" constant is used to access specific "_DateCreated" field property name of the base entity to access it in run-time for insert, update or delete purposes
-        /// </summary>
-        public string DateUtcCreatedFieldName { get { return "_DateUtcCreated"; } }
-
-        /// <summary>
-        /// "DateModifiedFieldName" constant is used to access specific "_DateModified" field property name of the base entity to access it in run-time for insert, update or delete purposes
-        /// </summary>
-        public string DateUtcModifiedFieldName { get { return "_DateUtcModified"; } }
-
-        /// <summary>
-        /// "IsActiveFieldName" constant is used to access specific "_IsActive" field property name of the base entity to access it in run-time for insert, update or delete purposes
-        /// </summary>
-        public string IsActiveFieldName { get { return "_IsActive"; } }
+        public static string BsonDocumentIDFieldName { get { return "_id"; } }
 
         /// <summary>
         /// Construtor
@@ -112,7 +97,7 @@ namespace MongoHead
 
             collection.InsertOne(BsonDocumentToSave);
 
-            string id = BsonDocumentToSave[IDFieldName].ToString();
+            string id = BsonDocumentToSave[MongoDBHelper.BsonDocumentIDFieldName].ToString();
             ObjectId newId = new ObjectId(id);
 
             return newId;
@@ -237,7 +222,7 @@ namespace MongoHead
                 Expression.Equal(
                     Expression.Property(
                         itemParameter,
-                        this.IDFieldName /*"_id"*/
+                        MongoDBHelper.BsonDocumentIDFieldName /*"_id"*/
                         ),
                     Expression.Constant(_id)
                     ),
@@ -344,7 +329,7 @@ namespace MongoHead
 
                 List<Filter> filter = new List<Filter>()
                 {
-                    new Filter { PropertyName = /*"_id"*/ this.IDFieldName, Operation = Op.Equals, Value = _id }
+                    new Filter { PropertyName = /*"_id"*/ MongoDBHelper.BsonDocumentIDFieldName, Operation = Op.Equals, Value = _id }
                 };
 
                 var exp = ExpressionBuilder.GetExpression<T>(filter);
