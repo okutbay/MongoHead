@@ -1,14 +1,12 @@
 # MongoHead
 Provides the layer for MongoDB operations over .NET driver 2.7.0. Also MongoHead includes a BaseData and BaseEntity class to speed up your application development process
 
-
 ## Dependencies
 Here is the list of installed NuGet packages and versions
-MongoDB.Driver (v2.7.0)
-Microsoft.NETCore.App (v2.0.0)
-Microsoft.Extensions.Options (v2.1.1)
-Microsoft.Extensions.Configuration (v2.1.1)
-
+* MongoDB.Driver (v2.7.0)
+* Microsoft.NETCore.App (v2.0.0)
+* Microsoft.Extensions.Options (v2.1.1)
+* Microsoft.Extensions.Configuration (v2.1.1)
 
 ## Classes
 ### MongoDBHelper
@@ -34,17 +32,17 @@ Bases a foundation for your entities by providing base properties like id, date 
 * _DateUtcModified
 * _IsActive
 
-
 # Sample Application
 ## MongoHead Configuration
 Add Mongo DB settings to you appsettings.json setting file
 
+```
 Sample JSON settings
   "MongoDBConfig": {
     "ConnectionString": "mongodb://localhost",
     "DatabaseName": "MongoHeadDB"
   }
-
+```
 
 **Information given after this line is draft at the moment**
 
