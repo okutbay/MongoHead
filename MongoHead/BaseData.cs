@@ -43,8 +43,8 @@ namespace MongoHead
 
             //These settings are checked on the helper class
             MongoDBConfig = new MongoDBConfig(
-                _configuration["Settings:MongoDB:ConnectionString"],
-                _configuration["Settings:MongoDB:DefaultDatabaseName"]
+                _configuration[MongoDBConfig.KeyNameConnectionString],
+                _configuration[MongoDBConfig.KeyNameDatabaseName]
                 );
 
             this.CollectionName = typeof(T).Name;
