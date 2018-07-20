@@ -13,7 +13,7 @@ Here is the list of installed NuGet packages and versions
 Helper for mongodb operations. Provides CRUD operations.
 Needs MongoDBConfig instance to configure connection to Db and and a Type to operate with it. Type names are equal to the collection names in MongoHead ecosystem.
 
-:boom: **We assume that your entity (type) has inherited BaseEntity and these some properties by defalt. Please check [BaseEntity class](https://github.com/okutbay/MongoHead/blob/master/README.md#baseentity)**
+:loudspeaker: **We assume that your entity (type) has inherited BaseEntity and these some properties by defalt. Please check [BaseEntity class](https://github.com/okutbay/MongoHead/blob/master/README.md#baseentity)**
 
 ### MongoDBConfig
 Simple class used to transfer database connection parameters to our MongoDBhelper class
@@ -36,7 +36,7 @@ Bases a foundation for your entities by providing base properties like id, date 
 ## MongoHead Configuration
 Add Mongo DB settings to you appsettings.json setting file
 
-Sample JSON settings
+Sample JSON settings:
 ```JSON
 {
   "MongoDBConfig": {
@@ -46,7 +46,7 @@ Sample JSON settings
 }
 ```
 
-**Information given after this line is draft at the moment**
+:exclamation::exclamation::exclamation: **Information given after this line is draft at the moment** :exclamation::exclamation::exclamation:
 
 ## Sample Application Organization
 Of course there may be lots of different achitectures. We are going to keep it simple and follow n-layered architecture. Different samples using different aproches are appreciated. :)
@@ -88,7 +88,7 @@ When I'm trying to configure a had difficulty to find 'AddAutoMapper' extension 
 PM> install-package AutoMapper.Extensions.Microsoft.DependencyInjection
 ```
 
-If you don't install and try to use method you will have this error.
+If you don't install and try to use method you will have this error. :boom:
 ```
 'IServiceCollection' does not contain a definition for 'AddAutoMapper' 
 and no extension method 'AddAutoMapper' accepting a first argument of type 'IServiceCollection' could be found 
