@@ -13,7 +13,7 @@ Here is the list of installed NuGet packages and versions
 Helper for mongodb operations. Provides CRUD operations.
 Needs MongoDBConfig instance to configure connection to Db and and a Type to operate with it. Type names are equal to the collection names in MongoHead ecosystem.
 
-**We assume that your entity (type) has inherited BaseEntity and these some properties by defalt. Please check BaseEntity class**
+:boom: **We assume that your entity (type) has inherited BaseEntity and these some properties by defalt. Please check [BaseEntity class][https://github.com/okutbay/MongoHead/blob/master/README.md#baseentity]**
 
 ### MongoDBConfig
 Simple class used to transfer database connection parameters to our MongoDBhelper class
@@ -37,7 +37,7 @@ Bases a foundation for your entities by providing base properties like id, date 
 Add Mongo DB settings to you appsettings.json setting file
 
 Sample JSON settings
-```csharp
+```JSON
 {
   "MongoDBConfig": {
     "ConnectionString": "mongodb://localhost",
@@ -57,10 +57,13 @@ Your entity classes may inherit our "BaseEntity" class provided by MongoHead. Wi
 To show a simple entity implementation, our sample application contains an entity named "Test". 
 
 ### Data Layers
+Coming soon
 
 ### Business Layers
+Coming soon
 
-> :boom: **PS: To keep things in one place we've placed entity, data layer and business layer**
+
+> **PS: To keep things in one place we've placed entity, data layer and business layer in to the same class file**
 
 # MongoDB
 Setup and installation details can be obtained from official web site. 
