@@ -10,7 +10,7 @@ Microsoft.Extensions.Options (v2.1.1)
 Microsoft.Extensions.Configuration (v2.1.1)
 
 
-##Classes
+## Classes
 ### MongoDBHelper
 Helper for mongodb operations. Provides CRUD operations.
 Needs MongoDBConfig instance to configure connection to Db and and a Type to operate with it. Type names are equal to the collection names in MongoHead ecosystem.
