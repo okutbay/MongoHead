@@ -36,12 +36,14 @@ Bases a foundation for your entities by providing base properties like id, date 
 ## MongoHead Configuration
 Add Mongo DB settings to you appsettings.json setting file
 
-```
 Sample JSON settings
+```csharp
+{
   "MongoDBConfig": {
     "ConnectionString": "mongodb://localhost",
     "DatabaseName": "MongoHeadDB"
   }
+}
 ```
 
 **Information given after this line is draft at the moment**
@@ -71,6 +73,9 @@ https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/
 
 
 # AutoMapper
+In our sample projects we prefer to use automapper to map our objects between presentation and data layer
+
+NuGet package installation
 ```
 PM> Install-Package AutoMapper
 ```
@@ -82,5 +87,7 @@ PM> install-package AutoMapper.Extensions.Microsoft.DependencyInjection
 
 If you don't install and try to use method you will have this error.
 ```
-'IServiceCollection' does not contain a definition for 'AddAutoMapper' and no extension method 'AddAutoMapper' accepting a first argument of type 'IServiceCollection' could be found (are you missing a using directive or an assembly reference?
+'IServiceCollection' does not contain a definition for 'AddAutoMapper' 
+and no extension method 'AddAutoMapper' accepting a first argument of type 'IServiceCollection' could be found 
+are you missing a using directive or an assembly reference?
 ```
