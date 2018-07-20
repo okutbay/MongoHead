@@ -15,3 +15,4 @@
 - MongoDBHelper changed. Save methods refactored
 - MongoDBHelper class changed. _id field name property changed to static and other field name properties move to BaseData
 - BaseData class changed. Field name properties moved from MongoDBHelper to BaseData and code is modified according to this change
+- MongoDBHelper bug fixed. GetList<T>(List<Filter> Filter) method was calling itself by a forgotton parameter.

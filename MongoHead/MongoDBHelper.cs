@@ -142,7 +142,7 @@ namespace MongoHead
         /// <returns></returns>
         public List<T> GetList<T>(List<Filter> Filter)
         {
-            return GetList<T>(Filter);
+            return GetList<T>(Filter, true);
         }
 
         /// <summary>
