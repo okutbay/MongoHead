@@ -37,7 +37,7 @@ Bases a foundation for your entities by providing base properties like id, date 
 Add Mongo DB settings to you appsettings.json setting file
 
 Sample JSON settings
-```C#
+```csharp
 {
   "MongoDBConfig": {
     "ConnectionString": "mongodb://localhost",
@@ -52,15 +52,15 @@ Sample JSON settings
 Of course there may be lots of different achitectures. We are going to keep it simple and follow n-layered architecture. Different samples using different aproches are appreciated. :)
 
 ### Entities
-You need entities to interact with mongodb collection. If you have an entity named X you are going a have same named collection in your datebase.
-Youe entity classes may inherit our "BaseEntity" class provided by MongoHead. With this inheritence all your class will have same base fiels in your database.
+You need entities to interact with mongodb collection. If you have an entity named X you are going a have collection with name X in your database.
+Your entity classes may inherit our "BaseEntity" class provided by MongoHead. With this inheritence all your class will have same base fiels in your database.
 To show a simple entity implementation, our sample application contains an entity named "Test". 
 
 ### Data Layers
 
 ### Business Layers
 
-**PS: To keep things in one place we've placed entity, data layer and business layer**
+> :boom: **PS: To keep things in one place we've placed entity, data layer and business layer**
 
 # MongoDB
 Setup and installation details can be obtained from official web site. 
