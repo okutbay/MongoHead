@@ -13,7 +13,7 @@ Here is the list of installed NuGet packages and versions
 Helper for mongodb operations. Provides CRUD operations.
 Needs MongoDBConfig instance to configure connection to Db and and a Type to operate with it. Type names are equal to the collection names in MongoHead ecosystem.
 
-:loudspeaker: **We assume that your entity (type) has inherited BaseEntity and these some properties by defalt. Please check [BaseEntity class](https://github.com/okutbay/MongoHead/blob/master/README.md#baseentity)**
+:loudspeaker: **We assume that your entity (type) has inherited BaseEntity and these some properties by defalt. Please check [BaseEntity class](../blob/master/README.md#baseentity)**
 
 ### MongoDBConfig
 Simple class used to transfer database connection parameters to our MongoDBhelper class
@@ -94,3 +94,8 @@ If you don't install and try to use method you will have this error. :boom:
 and no extension method 'AddAutoMapper' accepting a first argument of type 'IServiceCollection' could be found 
 are you missing a using directive or an assembly reference?
 ```
+
+
+## References
+* [Download MongoDB](https://www.mongodb.com/download-center?jmp=nav#community)
+* [Windows Installation](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
