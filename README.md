@@ -71,7 +71,16 @@ https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/
 
 
 # AutoMapper
+```
 PM> Install-Package AutoMapper
+```
 
-'IServiceCollection' does not contain a definition for 'AddAutoMapper' and no extension method 'AddAutoMapper' accepting a first argument of type 'IServiceCollection' could be found (are you missing a using directive or an assembly reference?
+When I'm trying to configure a had difficulty to find 'AddAutoMapper' extension method. To have it install this package too
+```
 PM> install-package AutoMapper.Extensions.Microsoft.DependencyInjection
+```
+
+If you don't install and try to use method you will have this error.
+```
+'IServiceCollection' does not contain a definition for 'AddAutoMapper' and no extension method 'AddAutoMapper' accepting a first argument of type 'IServiceCollection' could be found (are you missing a using directive or an assembly reference?
+```
