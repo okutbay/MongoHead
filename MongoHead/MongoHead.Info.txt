@@ -11,3 +11,7 @@
 - BaseData MongoDBHelper instance moved a property and created in the constructor
 - MongoDBHelper constructor parameter CollectionName is changed to EntityType to reflect CollectionName from the Entity Type's name. BaseData helper instace creation is changed according to this.
 - MongoDBConfig class change. KeyName properties added to access config settings
+- BaseData changed. Config Key Names changed from string to static members
+- MongoDBHelper changed. Save methods refactored
+- MongoDBHelper class changed. _id field name property changed to static and other field name properties move to BaseData
+- BaseData class changed. Field name properties moved from MongoDBHelper to BaseData and code is modified according to this change
