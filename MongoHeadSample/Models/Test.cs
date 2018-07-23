@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoHead;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,7 @@ namespace MongoHeadSample.Models
     }
 
     //ENTITY DEFINITION
+    [BsonIgnoreExtraElements]
     public class Test : BaseEntity
     {
         public Test() : base()

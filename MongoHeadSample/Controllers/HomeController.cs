@@ -55,7 +55,7 @@ namespace MongoHeadSample.Controllers
             //save some json
             //Please note that at least one field other than id must match to a entity property to get deserialized properly while retreiving from DB. 
             //Otherwise you will get format exception when you try to get that document.
-            string json = "{ 'Name' : 'Hakkı' }";
+            string json = "{ 'foo' : 'Hakkı' }";
             MongoDB.Bson.BsonDocument someBsonDocument
                 = MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(json);
             ObjectId fooId = helper.Save(someBsonDocument);
@@ -70,6 +70,7 @@ namespace MongoHeadSample.Controllers
             {
                 new Filter { PropertyName = "Name", Operation = Op.Equals, Value = "Hakkı" }
             };
+
             List<Test> foundItems2 = helper.GetList<Test>(filterByName1);
 
 
