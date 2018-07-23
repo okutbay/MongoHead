@@ -272,7 +272,8 @@ namespace MongoHead
         /// <returns></returns>
         public T GetLast<T>(List<Filter> Filter, string FieldName)
         {
-            return GetLast<T>(Filter, FieldName, true);
+            var foundItem = GetLast<T>(Filter, FieldName, true);
+            return foundItem;
         }
 
         /// <summary>
