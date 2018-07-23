@@ -18,3 +18,5 @@
 - MongoDBHelper bug fixed. GetList<T>(List<Filter> Filter) method was calling itself by a forgotton parameter.
 - [BsonIgnoreExtraElements] attribute added to Test entity to prevent Format exception.
 - MongoDBHelper GetByObjectId method is refactored
+- MongoDBHelper GetLast method is refactored
+- MongoDBHelper GetList method is refactored
