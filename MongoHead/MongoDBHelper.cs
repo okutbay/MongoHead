@@ -215,22 +215,8 @@ namespace MongoHead
         public T GetByObjectId<T>(ObjectId _id)
         {
             IMongoCollection<T> collection = Db.GetCollection<T>(CollectionName);
-
-            var itemParameter = Expression.Parameter(typeof(T), "item");
-            var whereExpression = Expression.Lambda<Func<T, bool>>
-                (
-                Expression.Equal(
-                    Expression.Property(
-                        itemParameter,
-                        MongoDBHelper.BsonDocumentIDFieldName /*"_id"*/
-                        ),
-                    Expression.Constant(_id)
-                    ),
-                new[] { itemParameter }
-                );
-
-            var query = Builders<T>.Filter.Where(whereExpression);
-            var foundItem = (T)collection.Find(query);
+            var filter = Builders<T>.Filter.Eq(MongoDBHelper.BsonDocumentIDFieldName /*"_id"*/, _id);
+            var foundItem = (T)collection.Find(filter);
             return foundItem;
         }
 
