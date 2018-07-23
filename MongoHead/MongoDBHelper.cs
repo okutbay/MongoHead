@@ -116,13 +116,22 @@ namespace MongoHead
         /// <returns></returns>
         public List<T> GetList<T>()
         {
-            List<Filter> filter = new List<Filter>()
-            {
-                new Filter { }
-            };
+            //TODO bunun icinde asagidaki gibi bir cagriyla cozebilir miyiz test edelim
+            //return GetList<T>(null);
 
-            List<T> list = GetList<T>(filter, true);
+            IMongoCollection<T> collection = Db.GetCollection<T>(CollectionName);
+
+            var filter = new BsonDocument();
+
+            List<T> list = new List<T>();
+            foreach (var item in collection.Find(filter).ToEnumerable())
+            {
+                list.Add(item);
+            }
+
             return list;
+
+            
         }
 
         /// <summary>
@@ -242,12 +251,15 @@ namespace MongoHead
         /// <returns></returns>
         public T GetLast<T>(string FieldName)
         {
-            List<Filter> filter = new List<Filter>()
-            {
-                new Filter { }
-            };
+            //TODO bunun icinde asagidaki gibi bir cagriyla cozebilir miyiz test edelim
+            //return GetLast<T>(null, FieldName);
 
-            var foundItem = GetLast<T>(filter, FieldName);
+            IMongoCollection<T> collection = Db.GetCollection<T>(CollectionName);
+
+            var filter = new BsonDocument();
+            var sortBy = Builders<T>.Sort.Descending(FieldName);
+            var foundItem = collection.Find(filter).Sort(sortBy).Limit(1).FirstOrDefault();
+
             return foundItem;
         }
 
@@ -260,8 +272,7 @@ namespace MongoHead
         /// <returns></returns>
         public T GetLast<T>(List<Filter> Filter, string FieldName)
         {
-            var foundItem = GetLast<T>(Filter, FieldName, true);
-            return foundItem;
+            return GetLast<T>(Filter, FieldName, true);
         }
 
         /// <summary>
