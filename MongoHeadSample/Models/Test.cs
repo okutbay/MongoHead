@@ -59,6 +59,8 @@ namespace MongoHeadSample.Models
 
         public string Name { get; set; }
         public string Surname { get; set; }
+
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime DateOfBirth { get; set; }
         public bool AliveAndKicking { get; set; }
     }
