@@ -27,9 +27,6 @@ namespace MongoHeadSample.Controllers
 
         public IActionResult Test()
         {
-
-
-
             MongoDBConfig config = new MongoDBConfig(
                 _configuration[MongoDBConfig.KeyNameConnectionString],
                 _configuration[MongoDBConfig.KeyNameDatabaseName]
@@ -44,13 +41,12 @@ namespace MongoHeadSample.Controllers
             test.Surname = "Bayram";
             test._DateUtcCreated = DateTime.Now;
             test._DateUtcModified = DateTime.Now;
-            test._IsActive = true;
+            //test._IsActive = true;
 
             //MongoDBHelper method samples for Test entity
 
             //save object to db
             test._id = helper.Save(test);
-
 
             //save some json
             //Please note that at least one field other than id must match to a entity property to get deserialized properly while retreiving from DB. 
@@ -60,10 +56,8 @@ namespace MongoHeadSample.Controllers
                 = MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(json);
             ObjectId fooId = helper.Save(someBsonDocument);
 
-
             //GetList<T>
             List<Test> foundItems1 = helper.GetList<Test>();
-
 
             //Get List by filter
             List<Filter> filterByName1 = new List<Filter>()
@@ -73,13 +67,23 @@ namespace MongoHeadSample.Controllers
 
             List<Test> foundItems2 = helper.GetList<Test>(filterByName1);
 
-
             //get item by filter
             List<Filter> filterByName2 = new List<Filter>()
             {
                 new Filter { PropertyName = "Name", Operation = Op.Equals, Value = "Ozan Kutlu" }
             };
             Test foundItem1 = helper.Get<Test>(filterByName2);
+
+
+
+
+
+
+
+
+
+
+
 
 
 
