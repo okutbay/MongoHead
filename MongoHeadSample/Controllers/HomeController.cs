@@ -13,7 +13,7 @@ namespace MongoHeadSample.Controllers
 {
     public class HomeController : Controller
     {
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
 
         public HomeController(IConfiguration Configuration)
         {
@@ -25,7 +25,7 @@ namespace MongoHeadSample.Controllers
             return View();
         }
 
-        public IActionResult Test()
+        private void InitData()
         {
             MongoDBConfig config = new MongoDBConfig(
                 _configuration[MongoDBConfig.KeyNameConnectionString],
@@ -34,14 +34,77 @@ namespace MongoHeadSample.Controllers
 
             MongoDBHelper helper = new MongoDBHelper(config, typeof(Test));
 
-            Test test = new Test();
-            test.AliveAndKicking = true;
-            test.DateOfBirth = new DateTime(1976, 4, 19);
-            test.Name = "Ozan Kutlu";
-            test.Surname = "Bayram";
-            test._DateUtcCreated = DateTime.Now;
-            test._DateUtcModified = DateTime.Now;
-            //test._IsActive = true;
+            Test test = new Test()
+            {
+                AliveAndKicking = false,
+                DateOfBirth = new DateTime(1936, 1, 20),
+                Name = "Ahmet",
+                Surname = "Bayram",
+                _DateUtcCreated = DateTime.Now,
+                _DateUtcModified = DateTime.Now,
+                _IsActive = false
+
+            };
+            helper.Save(test);
+
+            test = new Test()
+            {
+                AliveAndKicking = false,
+                DateOfBirth = new DateTime(1920, 3, 5),
+                Name = "Hasan",
+                Surname = "Bayram",
+                _DateUtcCreated = DateTime.Now,
+                _DateUtcModified = DateTime.Now,
+                _IsActive = false
+            };
+            helper.Save(test);
+
+            test = new Test()
+            {
+                AliveAndKicking = false,
+                DateOfBirth = new DateTime(1950, 9, 26),
+                Name = "Serol",
+                Surname = "Bayram",
+                _DateUtcCreated = DateTime.Now,
+                _DateUtcModified = DateTime.Now,
+                _IsActive = false
+            };
+            helper.Save(test);
+
+            test = new Test()
+            {
+                AliveAndKicking = true,
+                DateOfBirth = new DateTime(2008, 9, 16),
+                Name = "Melis",
+                Surname = "Bayram",
+                _DateUtcCreated = DateTime.Now,
+                _DateUtcModified = DateTime.Now,
+                _IsActive = true
+            };
+            helper.Save(test);
+        }
+
+        public IActionResult Test()
+        {
+            //InitData();
+
+            MongoDBConfig config = new MongoDBConfig(
+                _configuration[MongoDBConfig.KeyNameConnectionString],
+                _configuration[MongoDBConfig.KeyNameDatabaseName]
+                );
+
+            MongoDBHelper helper = new MongoDBHelper(config, typeof(Test));
+
+            Test test = new Test()
+            {
+                AliveAndKicking = true,
+                DateOfBirth = new DateTime(1976, 4, 19),
+                Name = "Ozan Kutlu",
+                Surname = "Bayram",
+                _DateUtcCreated = DateTime.Now,
+                _DateUtcModified = DateTime.Now,
+                _IsActive = true
+            };
 
             //MongoDBHelper method samples for Test entity
 
@@ -76,14 +139,30 @@ namespace MongoHeadSample.Controllers
 
 
             //public T GetByObjectId<T>(ObjectId _id) //get item by filter
-            ObjectId _id = new ObjectId("5b55ebe0927eea373c42843b");
+            ObjectId _id = new ObjectId("5b56cb0025e1ee0d38fdbc26");
             Test foundItem2 = helper.GetByObjectId<Test>(_id);
 
 
+            //public T GetByFieldValue<T>(string FieldName, object Value) //
+            Test foundItem3 = helper.GetByFieldValue<Test>("Surname", "Bayram");
+
+            //public T GetLast<T>(string SortFieldName) //
+            Test foundItem4 = helper.GetLast<Test>("Surname");
+
+            //public T GetLast<T>(List<Filter> Filter, string SortFieldName) //
+            List<Filter> filterByName3 = new List<Filter>()
+            {
+                new Filter { PropertyName = "Name", Operation = Op.Equals, Value = "Hasan" }
+            };
+            Test foundItem5 = helper.GetLast<Test>(filterByName3, "Surname");
 
 
-
-
+            //public T GetLast<T>(List<Filter> Filter, string SortFieldName) //
+            List<Filter> filterByName4 = new List<Filter>()
+            {
+                new Filter { PropertyName = "Name", Operation = Op.Equals, Value = "Ahmet" }
+            };
+            Test foundItem6 = helper.GetLast<Test>(filterByName4, "Surname", false);
 
 
 
