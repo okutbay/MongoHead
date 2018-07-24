@@ -130,17 +130,17 @@ namespace MongoHead
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="filter"></param>
+        /// <param name="Filter"></param>
         /// <param name="UseAndLogic"></param>
         /// <returns></returns>
-        public Dictionary<string, string> GetKeyValueList(List<Filter> filter, bool UseAndLogic = true)
+        public Dictionary<string, string> GetKeyValueList(List<Filter> Filter, bool UseAndLogic = true)
         {
             string keyFieldName = this.IDFieldName;
-            string valueFieldName = $"{CollectionName}Name"; //string.Format("{0}Name", collectionName);
+            string valueFieldName = $"{CollectionName}Value";
 
             Dictionary<string, string> dict;
 
-            dict = GetKeyValueList(keyFieldName, valueFieldName, filter, UseAndLogic);
+            dict = GetKeyValueList(keyFieldName, valueFieldName, Filter, UseAndLogic);
 
             return dict;
         }
@@ -150,7 +150,7 @@ namespace MongoHead
         /// </summary>
         /// <param name="KeyFieldName"></param>
         /// <param name="ValueFieldName"></param>
-        /// <param name="filter"></param>
+        /// <param name="Filter"></param>
         /// <param name="UseAndLogic"></param>
         /// <returns></returns>
         public Dictionary<string, string> GetKeyValueList(string KeyFieldName, string ValueFieldName, List<Filter> filter, bool UseAndLogic = true)
