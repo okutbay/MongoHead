@@ -20,6 +20,7 @@
 - MongoDBHelper GetByObjectId method is refactored
 - MongoDBHelper GetLast method is refactored
 - MongoDBHelper GetByObjectId method bugfix
+- BaseData, Filter, MongoDBHelper naming refactorings
 
 
 

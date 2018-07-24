@@ -241,7 +241,7 @@ namespace MongoHead
             var exp = ExpressionBuilder.GetExpression<T>(filter);
             var query = Builders<T>.Filter.Where(exp);
 
-            var foundItem = (T)collection.Find(query);
+            var foundItem = (T)collection.Find(query).FirstOrDefault();
             return foundItem;
         }
 
@@ -249,9 +249,9 @@ namespace MongoHead
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="FieldName"></param>
+        /// <param name="SortFieldName"></param>
         /// <returns></returns>
-        public T GetLast<T>(string FieldName)
+        public T GetLast<T>(string SortFieldName)
         {
             //TODO bunun icinde asagidaki gibi bir cagriyla cozebilir miyiz test edelim
             //return GetLast<T>(null, FieldName);
@@ -259,7 +259,7 @@ namespace MongoHead
             IMongoCollection<T> collection = Db.GetCollection<T>(CollectionName);
 
             var filter = new BsonDocument();
-            var sortBy = Builders<T>.Sort.Descending(FieldName);
+            var sortBy = Builders<T>.Sort.Descending(SortFieldName);
             var foundItem = collection.Find(filter).Sort(sortBy).Limit(1).FirstOrDefault();
 
             return foundItem;
@@ -270,11 +270,11 @@ namespace MongoHead
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="Filter"></param>
-        /// <param name="FieldName"></param>
+        /// <param name="SortFieldName"></param>
         /// <returns></returns>
-        public T GetLast<T>(List<Filter> Filter, string FieldName)
+        public T GetLast<T>(List<Filter> Filter, string SortFieldName)
         {
-            var foundItem = GetLast<T>(Filter, FieldName, true);
+            var foundItem = GetLast<T>(Filter, SortFieldName, true);
             return foundItem;
         }
 
@@ -283,16 +283,16 @@ namespace MongoHead
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="Filter"></param>
-        /// <param name="FieldName"></param>
+        /// <param name="SortFieldName"></param>
         /// <param name="UseAndLogic"></param>
         /// <returns></returns>
-        public T GetLast<T>(List<Filter> Filter, string FieldName, bool UseAndLogic = true)
+        public T GetLast<T>(List<Filter> Filter, string SortFieldName, bool UseAndLogic = true)
         {
             IMongoCollection<T> collection = Db.GetCollection<T>(CollectionName);
 
             var exp = ExpressionBuilder.GetExpression<T>(Filter, UseAndLogic);
             var query = Builders<T>.Filter.Where(exp);
-            var sortBy = Builders<T>.Sort.Descending(FieldName);
+            var sortBy = Builders<T>.Sort.Descending(SortFieldName);
 
             var foundItem = collection.Find(query).Sort(sortBy).Limit(1).FirstOrDefault();
             return foundItem;

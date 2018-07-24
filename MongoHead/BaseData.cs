@@ -35,7 +35,7 @@ namespace MongoHead
 
         string CollectionName { get; set; }
 
-        MongoDBHelper helper { get; set; }
+        MongoDBHelper Helper { get; set; }
 
         /// <summary>
         /// "IDFieldName" constant is used to access specific "_id" field property name of the base entity to access it in run-time for insert, update or delete purposes
@@ -70,7 +70,7 @@ namespace MongoHead
             this.CollectionName = typeof(T).Name;
 
             //Set Helper Instance
-            this.helper = new MongoDBHelper(this.MongoDBConfig, typeof(T));
+            this.Helper = new MongoDBHelper(this.MongoDBConfig, typeof(T));
         }
 
         #region Delete
@@ -96,7 +96,7 @@ namespace MongoHead
         {
 
 
-            bool result = this.helper.Delete<T>(Id);
+            bool result = this.Helper.Delete<T>(Id);
             return result;
         }
 
@@ -111,7 +111,7 @@ namespace MongoHead
         /// <returns></returns>
         public List<T> GetList()
         {
-            List<T> list = helper.GetList<T>();
+            List<T> list = Helper.GetList<T>();
             return list;
         }
 
@@ -123,7 +123,7 @@ namespace MongoHead
         /// <returns></returns>
         public List<T> GetList(List<Filter> filter, bool UseAndLogic = true)
         {
-            List<T> foundItems = helper.GetList<T>(filter, UseAndLogic);
+            List<T> foundItems = Helper.GetList<T>(filter, UseAndLogic);
             return foundItems;
         }
 
@@ -155,7 +155,7 @@ namespace MongoHead
         /// <returns></returns>
         public Dictionary<string, string> GetKeyValueList(string KeyFieldName, string ValueFieldName, List<Filter> filter, bool UseAndLogic = true)
         {
-            List<T> foundItems = helper.GetList<T>(filter, UseAndLogic);
+            List<T> foundItems = Helper.GetList<T>(filter, UseAndLogic);
 
             PropertyInfo idProperty = typeof(T).GetProperty(KeyFieldName);
             PropertyInfo nameProperty = typeof(T).GetProperty(ValueFieldName);
@@ -206,7 +206,7 @@ namespace MongoHead
         /// <returns></returns>
         public T GetById(ObjectId Id)
         {
-            T foundItem = helper.GetByObjectId<T>(Id);
+            T foundItem = Helper.GetByObjectId<T>(Id);
             return foundItem;
         }
 
@@ -241,7 +241,7 @@ namespace MongoHead
                 dateModifiedProperty.SetValue(ObjectToSave, currentTime);
             }
 
-            ObjectId newId = helper.Save(ObjectToSave);
+            ObjectId newId = Helper.Save(ObjectToSave);
 
             //pass new id value to the incoming object
             idProperty.SetValue(ObjectToSave, newId);

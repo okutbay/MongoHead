@@ -42,9 +42,9 @@ namespace MongoHead
 
     public static class ExpressionBuilder
     {
-        private static MethodInfo containsMethod = typeof(string).GetMethod("Contains");
-        private static MethodInfo startsWithMethod = typeof(string).GetMethod("StartsWith", new Type[] { typeof(string) });
-        private static MethodInfo endsWithMethod = typeof(string).GetMethod("EndsWith", new Type[] { typeof(string) });
+        private static readonly MethodInfo containsMethod = typeof(string).GetMethod("Contains");
+        private static readonly MethodInfo startsWithMethod = typeof(string).GetMethod("StartsWith", new Type[] { typeof(string) });
+        private static readonly MethodInfo endsWithMethod = typeof(string).GetMethod("EndsWith", new Type[] { typeof(string) });
 
         public static Expression<Func<T, bool>> GetExpression<T>(IList<Filter> filters, bool UseAndLogic = true)
         {
