@@ -84,9 +84,54 @@ namespace MongoHeadSample.Controllers
             helper.Save(test);
         }
 
+        private void InitParameters()
+        {
+            MongoDBConfig config = new MongoDBConfig(
+                _configuration[MongoDBConfig.KeyNameConnectionString],
+                _configuration[MongoDBConfig.KeyNameDatabaseName]
+                );
+
+            MongoDBHelper helper = new MongoDBHelper(config, typeof(Parameter));
+
+            Parameter parameter = new Parameter()
+            {
+                ParameterName = "Türkçe",
+                ParameterValue = "tr",
+                GroupName = "Languages",
+                _DateUtcCreated = DateTime.Now,
+                _DateUtcModified = DateTime.Now,
+                _IsActive = true
+            };
+
+            Parameter foundParameter = helper.GetByFieldValue<Parameter>("ParameterName", "Türkçe");
+            if (foundParameter == null)
+            {
+                helper.Save(parameter);
+            }
+
+            parameter = new Parameter()
+            {
+                ParameterName = "English",
+                ParameterValue = "en",
+                GroupName = "Languages",
+                _DateUtcCreated = DateTime.Now,
+                _DateUtcModified = DateTime.Now,
+                _IsActive = true
+            };
+
+            foundParameter = helper.GetByFieldValue<Parameter>("ParameterName", "English");
+            if (foundParameter == null)
+            {
+                helper.Save(parameter);
+            }
+
+        }
+
+
         public IActionResult Test()
         {
             //InitData();
+            InitParameters();
 
             MongoDBConfig config = new MongoDBConfig(
                 _configuration[MongoDBConfig.KeyNameConnectionString],
@@ -106,7 +151,10 @@ namespace MongoHeadSample.Controllers
                 _IsActive = true
             };
 
+
+            //***********************************************************************************************
             //MongoDBHelper method samples for Test entity
+            //***********************************************************************************************
 
             //save object to db
             //test._id = helper.Save(test);
@@ -165,12 +213,74 @@ namespace MongoHeadSample.Controllers
             Test foundItem6 = helper.GetLast<Test>(filterByName4, "Surname", false);
 
 
+            //public bool Delete<T>(ObjectId _id) //
+            Test testDataToDelete = new Test()
+            {
+                AliveAndKicking = false,
+                DateOfBirth = new DateTime(1901, 1, 31),
+                Name = "Del",
+                Surname = "Ete",
+                _DateUtcCreated = DateTime.Now,
+                _DateUtcModified = DateTime.Now,
+                _IsActive = true
+            };
+            testDataToDelete._id = helper.Save(testDataToDelete);
 
+            helper.Delete<Test>(testDataToDelete._id);
+
+            //***********************************************************************************************
             //BaseData method samples for Test entity
+            //***********************************************************************************************
 
 
 
+            //create base data instance
+            BaseData<Test> testBaseData = new BaseData<Test>(_configuration);
+            BaseData<Parameter> parameterBaseData = new BaseData<Parameter>(_configuration);
 
+            //public ObjectId Save(T ObjectToSave)
+            testDataToDelete._id = testBaseData.Save(testDataToDelete);
+
+            //public bool Delete(string Id) //
+            bool deleteResult = testBaseData.Delete(testDataToDelete._id.ToString());
+
+
+            testDataToDelete._id = testBaseData.Save(testDataToDelete);
+
+            //public bool Delete(ObjectId Id) //
+            bool deleteResult2 = testBaseData.Delete(testDataToDelete._id);
+
+
+            //public List<T> GetList()
+            testBaseData.GetList();
+
+
+            //public List<T> GetList(List<Filter> filter, bool UseAndLogic = true) //
+            List<Filter> filterByName5 = new List<Filter>()
+            {
+                new Filter { PropertyName = "Name", Operation = Op.Equals, Value = "Ahmet" }
+            };
+            testBaseData.GetList(filterByName5, false);
+
+            //public Dictionary<string, string> GetKeyValueList(string GroupName, bool UseAndLogic = true) //
+            List<Filter> filterByGroupName = new List<Filter>()
+            {
+                new Filter { PropertyName = "GroupName" , Operation = Op.Equals, Value = "Languages" }
+            };
+            Dictionary<string, string> languageList = parameterBaseData.GetKeyValueList(filterByGroupName);
+
+            //public Dictionary<string, string> GetKeyValueList(string KeyFieldName, string ValueFieldName, List<Filter> filter, bool UseAndLogic = true) //
+            Dictionary<string, string> languageList2 = parameterBaseData.GetKeyValueList("ParameterName", "ParameterValue", filterByGroupName);
+
+            //public T GetById(string Id) //
+            Test Melis = testBaseData.GetById("5b56cb0025e1ee0d38fdbc27");
+
+            //public T GetById(ObjectId Id)
+            Test Melis2 = testBaseData.GetById(new ObjectId("5b56cb0025e1ee0d38fdbc27"));
+
+
+
+            //public ObjectId Save(T ObjectToSave)
 
             return View();
         }
