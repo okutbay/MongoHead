@@ -46,20 +46,20 @@ namespace MongoHeadSample.Controllers
             //MongoDBHelper method samples for Test entity
 
             //save object to db
-            test._id = helper.Save(test);
+            //test._id = helper.Save(test);
 
             //save some json
             //Please note that at least one field other than id must match to a entity property to get deserialized properly while retreiving from DB. 
             //Otherwise you will get format exception when you try to get that document.
-            string json = "{ 'foo' : 'Hakkı' }";
+            string json = "{ 'Name' : 'Hakkı' }";
             MongoDB.Bson.BsonDocument someBsonDocument
                 = MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(json);
-            ObjectId fooId = helper.Save(someBsonDocument);
+            //ObjectId fooId = helper.Save(someBsonDocument);
 
-            //GetList<T>
+            //public List<T> GetList<T>()
             List<Test> foundItems1 = helper.GetList<Test>();
 
-            //Get List by filter
+            //public List<T> GetList<T>(List<Filter> Filter) //Get List by filter
             List<Filter> filterByName1 = new List<Filter>()
             {
                 new Filter { PropertyName = "Name", Operation = Op.Equals, Value = "Hakkı" }
@@ -67,7 +67,7 @@ namespace MongoHeadSample.Controllers
 
             List<Test> foundItems2 = helper.GetList<Test>(filterByName1);
 
-            //get item by filter
+            //public T Get<T>(List<Filter> Filter) //get item by filter
             List<Filter> filterByName2 = new List<Filter>()
             {
                 new Filter { PropertyName = "Name", Operation = Op.Equals, Value = "Ozan Kutlu" }
@@ -75,9 +75,9 @@ namespace MongoHeadSample.Controllers
             Test foundItem1 = helper.Get<Test>(filterByName2);
 
 
-
-
-
+            //public T GetByObjectId<T>(ObjectId _id) //get item by filter
+            ObjectId _id = new ObjectId("5b55ebe0927eea373c42843b");
+            Test foundItem2 = helper.GetByObjectId<Test>(_id);
 
 
 
