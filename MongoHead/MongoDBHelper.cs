@@ -142,7 +142,8 @@ namespace MongoHead
         /// <returns></returns>
         public List<T> GetList<T>(List<Filter> Filter)
         {
-            return GetList<T>(Filter, true);
+            List<T> foundItems = GetList<T>(Filter, true);
+            return foundItems;
         }
 
         /// <summary>
@@ -184,7 +185,8 @@ namespace MongoHead
         /// <returns></returns>
         public T Get<T>(List<Filter> Filter)
         {
-            return Get<T>(Filter, true);
+            T foundItem = Get<T>(Filter, true);
+            return foundItem;
         }
 
         /// <summary>
@@ -216,7 +218,7 @@ namespace MongoHead
         {
             IMongoCollection<T> collection = Db.GetCollection<T>(CollectionName);
             var filter = Builders<T>.Filter.Eq(MongoDBHelper.BsonDocumentIDFieldName /*"_id"*/, _id);
-            var foundItem = (T)collection.Find(filter);
+            var foundItem = (T)collection.Find(filter).FirstOrDefault();
             return foundItem;
         }
 

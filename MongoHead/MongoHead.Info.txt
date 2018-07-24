@@ -19,6 +19,7 @@
 - [BsonIgnoreExtraElements] attribute added to Test entity to prevent Format exception.
 - MongoDBHelper GetByObjectId method is refactored
 - MongoDBHelper GetLast method is refactored
+- MongoDBHelper GetByObjectId method bugfix
 
 
 
