@@ -94,8 +94,6 @@ namespace MongoHead
         /// <returns></returns>
         public bool Delete(ObjectId Id)
         {
-
-
             bool result = this.Helper.Delete<T>(Id);
             return result;
         }
@@ -162,12 +160,14 @@ namespace MongoHead
 
             if (idProperty == null)
             {
-                throw new Exception(string.Format("Unable to reflect key property. please check entity \"{0}\" contains \"{1}\" property.", this.CollectionName, KeyFieldName));
+                var message = $"Unable to reflect key property. Please check entity \"{CollectionName}\" contains \"{KeyFieldName}\" property.";
+                throw new Exception(message);
             }
 
             if (nameProperty == null)
             {
-                throw new Exception(string.Format("Unable to reflect name property. please check entity \"{0}\" contains \"{1}\" property.", this.CollectionName, ValueFieldName));
+                var message = $"Unable to reflect key property. Please check entity \"{CollectionName}\" contains \"{ValueFieldName}\" property.";
+                throw new Exception(message);
             }
 
             Dictionary<string, string> dict = new Dictionary<string, string>();

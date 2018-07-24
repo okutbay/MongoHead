@@ -23,5 +23,6 @@
 - BaseData, Filter, MongoDBHelper naming refactorings
 - IBaseData method signatures refactored
 - BaseData GetKeyValueList method signatures refactored and valueFieldName variable is changed to $"{CollectionName}Value". With this change our method is going to values from the XValue column.
+- BaseData GetKeyValueList method modified to use Named string interpolation instead of String.Format
 
 
