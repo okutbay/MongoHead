@@ -21,7 +21,7 @@
 - MongoDBHelper GetLast method is refactored
 - MongoDBHelper GetByObjectId method bugfix
 - BaseData, Filter, MongoDBHelper naming refactorings
-
-
+- IBaseData method signatures refactored
+- BaseData GetKeyValueList method signatures refactored and valueFieldName variable is changed to $"{CollectionName}Value". With this change our method is going to values from the XValue column.
 
 
