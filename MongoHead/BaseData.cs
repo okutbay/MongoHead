@@ -233,21 +233,21 @@ namespace MongoHead
             if (currentId == emptyId) //this operation is a new insert
             {
                 //set create and modify dates
-                dateCreatedProperty.SetValue(ObjectToSave, currentTime);
-                dateModifiedProperty.SetValue(ObjectToSave, currentTime);
+                dateCreatedProperty?.SetValue(ObjectToSave, currentTime);
+                dateModifiedProperty?.SetValue(ObjectToSave, currentTime);
 
                 newId = Helper.Insert(ObjectToSave);
             }
             else //this operation is a update
             {
                 //set only modify date
-                dateModifiedProperty.SetValue(ObjectToSave, currentTime);
+                dateModifiedProperty?.SetValue(ObjectToSave, currentTime);
 
                 newId = Helper.Replace(ObjectToSave, currentId);
             }
 
             //pass new id value to the incoming object
-            idProperty.SetValue(ObjectToSave, newId);
+            idProperty?.SetValue(ObjectToSave, newId);
 
             //also return new id
             return newId;

@@ -26,5 +26,6 @@
 - BaseData GetKeyValueList method modified to use Named string interpolation instead of String.Format
 - MongoDBHelper Save method is removed and 2 new methods added for Insert and Replace operations.
 - BaseData Save method is modified to reflect changes in MongoDBHelper
+- BaseEntity simplified to use with log objects. BaseData Save method is modified to check unexisted properties.
 
 
