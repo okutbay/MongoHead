@@ -77,11 +77,11 @@ namespace MongoHead
         /// </summary>
         /// <param name="ObjectToSave"></param>
         /// <returns></returns>
-        public ObjectId Save(object ObjectToSave)
+        public ObjectId Insert(object ObjectToSave)
         {
             BsonDocument document = ObjectToSave.ToBsonDocument(); //conversion to BsonDocument adds _t as type of the object to the 
             document.Remove("_t"); //we dont want this just remove
-            ObjectId newId = this.Save(document);
+            ObjectId newId = this.Insert(document);
 
             return newId;
         }
@@ -91,7 +91,7 @@ namespace MongoHead
         /// </summary>
         /// <param name="BsonDocumentToSave"></param>
         /// <returns></returns>
-        public ObjectId Save(BsonDocument BsonDocumentToSave)
+        public ObjectId Insert(BsonDocument BsonDocumentToSave)
         {
             IMongoCollection<BsonDocument> collection = Db.GetCollection<BsonDocument>(CollectionName);
 
@@ -101,6 +101,37 @@ namespace MongoHead
             ObjectId newId = new ObjectId(id);
 
             return newId;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ObjectToReplace"></param>
+        /// <returns></returns>
+        public ObjectId Replace(object ObjectToReplace, ObjectId Id)
+        {
+            BsonDocument document = ObjectToReplace.ToBsonDocument(); //conversion to BsonDocument adds _t as type of the object to the 
+            document.Remove("_t"); //we dont want this just remove
+            ObjectId id = this.Replace(document, Id);
+
+            return id;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="BsonDocumentToReplace"></param>
+        /// <returns></returns>
+        public ObjectId Replace(BsonDocument BsonDocumentToReplace, ObjectId Id)
+        {
+            //string id = BsonDocumentToReplace[MongoDBHelper.BsonDocumentIDFieldName].ToString();
+            //ObjectId updateId = new ObjectId(id);
+
+            IMongoCollection<BsonDocument> collection = Db.GetCollection<BsonDocument>(CollectionName);
+            var filter = Builders<BsonDocument>.Filter.Eq(MongoDBHelper.BsonDocumentIDFieldName, Id);
+            collection.ReplaceOne(filter, BsonDocumentToReplace);
+
+            return Id;
         }
 
         #endregion
@@ -131,7 +162,7 @@ namespace MongoHead
 
             return list;
 
-            
+
         }
 
         /// <summary>

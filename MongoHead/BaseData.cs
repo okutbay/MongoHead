@@ -225,6 +225,7 @@ namespace MongoHead
 
             ObjectId currentId = (ObjectId)idProperty.GetValue(ObjectToSave);//Get incoming object's Id value
             ObjectId emptyId = new ObjectId();//Create an Empty Object Id with default value of {000000000000000000000000}
+            ObjectId newId = new ObjectId();
 
             DateTime currentTime = DateTime.UtcNow;
 
@@ -234,14 +235,16 @@ namespace MongoHead
                 //set create and modify dates
                 dateCreatedProperty.SetValue(ObjectToSave, currentTime);
                 dateModifiedProperty.SetValue(ObjectToSave, currentTime);
+
+                newId = Helper.Insert(ObjectToSave);
             }
             else //this operation is a update
             {
                 //set only modify date
                 dateModifiedProperty.SetValue(ObjectToSave, currentTime);
-            }
 
-            ObjectId newId = Helper.Save(ObjectToSave);
+                newId = Helper.Replace(ObjectToSave, currentId);
+            }
 
             //pass new id value to the incoming object
             idProperty.SetValue(ObjectToSave, newId);
