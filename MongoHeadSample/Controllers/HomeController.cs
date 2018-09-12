@@ -45,7 +45,7 @@ namespace MongoHeadSample.Controllers
                 _IsActive = false
 
             };
-            helper.Save(test);
+            helper.Insert(test);
 
             test = new Test()
             {
@@ -57,7 +57,7 @@ namespace MongoHeadSample.Controllers
                 _DateUtcModified = DateTime.Now,
                 _IsActive = false
             };
-            helper.Save(test);
+            helper.Insert(test);
 
             test = new Test()
             {
@@ -69,7 +69,7 @@ namespace MongoHeadSample.Controllers
                 _DateUtcModified = DateTime.Now,
                 _IsActive = false
             };
-            helper.Save(test);
+            helper.Insert(test);
 
             test = new Test()
             {
@@ -81,7 +81,7 @@ namespace MongoHeadSample.Controllers
                 _DateUtcModified = DateTime.Now,
                 _IsActive = true
             };
-            helper.Save(test);
+            helper.Insert(test);
         }
 
         private void InitParameters()
@@ -106,7 +106,7 @@ namespace MongoHeadSample.Controllers
             Parameter foundParameter = helper.GetByFieldValue<Parameter>("ParameterName", "Türkçe");
             if (foundParameter == null)
             {
-                helper.Save(parameter);
+                helper.Insert(parameter);
             }
 
             parameter = new Parameter()
@@ -122,7 +122,7 @@ namespace MongoHeadSample.Controllers
             foundParameter = helper.GetByFieldValue<Parameter>("ParameterName", "English");
             if (foundParameter == null)
             {
-                helper.Save(parameter);
+                helper.Insert(parameter);
             }
 
         }
@@ -224,7 +224,7 @@ namespace MongoHeadSample.Controllers
                 _DateUtcModified = DateTime.Now,
                 _IsActive = true
             };
-            testDataToDelete._id = helper.Save(testDataToDelete);
+            testDataToDelete._id = helper.Insert(testDataToDelete);
 
             helper.Delete<Test>(testDataToDelete._id);
 
