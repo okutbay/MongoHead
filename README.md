@@ -1,5 +1,6 @@
 # MongoHead
 Provides the layer for MongoDB operations over .NET driver 2.7.0. Also MongoHead includes a BaseData and BaseEntity class to speed up your application development process
+MongoHead is a .NET Standart 2.0 Library
 
 ## Installation
 Available on NuGet:
@@ -8,7 +9,6 @@ https://www.nuget.org/packages/MongoHead/
 ## Dependencies
 Here is the list of installed NuGet packages and versions
 1. MongoDB.Driver (v2.7.0)
-1. Microsoft.NETCore.App (v2.0.0)
 1. Microsoft.Extensions.Options (v2.1.1)
 1. Microsoft.Extensions.Configuration (v2.1.1)
 
