@@ -27,5 +27,8 @@
 - MongoDBHelper Save method is removed and 2 new methods added for Insert and Replace operations.
 - BaseData Save method is modified to reflect changes in MongoDBHelper
 - BaseEntity simplified to use with log objects. BaseData Save method is modified to check unexisted properties.
+0.2.0.0
+- "BaseEntitySimple" simplified use just with _Id to use when no-date is necessary. To achieve this "_DateUtcCreated" property is moved to another base class called "BaseEntityLight" which inherits "BaseEntitySimple". Now "BaseEntity" interis "BaseEntityLight"
+- "BaseEntityComplex" class is added to provide UserId support. Latest base entity hierarchy is: BaseEntitySimple < BaseEntityLight < BaseEntity < BaseEntityComplex
 
 

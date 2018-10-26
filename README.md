@@ -29,12 +29,23 @@ Filter used in MongoDBHelper and BaseData class to define query parameters and E
 ### BaseData
 An implementation of IBaseData and aims to provide base CRUD methods to your data layer classes
 
-### BaseEntity
-Bases a foundation for your entities by providing base properties like id, date and basic status fields.
+### BaseEntity Classes (BaseEntitySimple, BaseEntityLight, BaseEntity, BaseEntityComplex)
+Each class adds some fields to entity provide to support to eliminating unnecessary properties on your entities and keeps your database collections lighter.
+Latest base entity hierarchy (inheritence) is: BaseEntitySimple < BaseEntityLight < BaseEntity < BaseEntityComplex
+
+#### BaseEntitySimple adds this property
 * _id
+
+#### BaseEntityLight adds this property
 * _DateUtcCreated
+
+#### BaseEntity  adds these properties
 * _DateUtcModified
 * _IsActive
+
+#### BaseEntityComplex adds this property
+* _UserId
+
 
 # Sample Application
 ## MongoHead Configuration
