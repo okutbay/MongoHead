@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoHead;
 using System;
@@ -63,6 +64,7 @@ namespace MongoHeadSample.Models
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime DateOfBirth { get; set; }
         public bool AliveAndKicking { get; set; }
+        public ObjectId SomeObjectIdValue { get; set; }
     }
 
 

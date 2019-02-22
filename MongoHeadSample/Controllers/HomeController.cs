@@ -34,6 +34,8 @@ namespace MongoHeadSample.Controllers
 
             MongoDBHelper helper = new MongoDBHelper(config, typeof(Test));
 
+            ObjectId someObjectIdValue = new ObjectId("5c6e82d721654c50981bddec");
+
             Test test = new Test()
             {
                 AliveAndKicking = false,
@@ -42,7 +44,8 @@ namespace MongoHeadSample.Controllers
                 Surname = "Bayram",
                 _DateUtcCreated = DateTime.Now,
                 _DateUtcModified = DateTime.Now,
-                _IsActive = false
+                _IsActive = false,
+                SomeObjectIdValue = someObjectIdValue
 
             };
             helper.Insert(test);
@@ -55,7 +58,8 @@ namespace MongoHeadSample.Controllers
                 Surname = "Bayram",
                 _DateUtcCreated = DateTime.Now,
                 _DateUtcModified = DateTime.Now,
-                _IsActive = false
+                _IsActive = false,
+                SomeObjectIdValue = someObjectIdValue
             };
             helper.Insert(test);
 
@@ -67,7 +71,8 @@ namespace MongoHeadSample.Controllers
                 Surname = "Bayram",
                 _DateUtcCreated = DateTime.Now,
                 _DateUtcModified = DateTime.Now,
-                _IsActive = false
+                _IsActive = false,
+                SomeObjectIdValue = someObjectIdValue
             };
             helper.Insert(test);
 
@@ -79,7 +84,8 @@ namespace MongoHeadSample.Controllers
                 Surname = "Bayram",
                 _DateUtcCreated = DateTime.Now,
                 _DateUtcModified = DateTime.Now,
-                _IsActive = true
+                _IsActive = true,
+                SomeObjectIdValue = someObjectIdValue
             };
             helper.Insert(test);
         }
@@ -127,16 +133,22 @@ namespace MongoHeadSample.Controllers
 
         }
 
+        public IActionResult Init()
+        {
+            InitData();
+            InitParameters();
+
+            return View();
+        }
 
         public IActionResult Test()
         {
-            //InitData();
-            InitParameters();
-
             MongoDBConfig config = new MongoDBConfig(
                 _configuration[MongoDBConfig.KeyNameConnectionString],
                 _configuration[MongoDBConfig.KeyNameDatabaseName]
                 );
+
+            ObjectId someObjectIdValue = new ObjectId("5c6e82d721654c50981bddec");
 
             MongoDBHelper helper = new MongoDBHelper(config, typeof(Test));
 
@@ -148,9 +160,9 @@ namespace MongoHeadSample.Controllers
                 Surname = "Bayram",
                 _DateUtcCreated = DateTime.Now,
                 _DateUtcModified = DateTime.Now,
-                _IsActive = true
+                _IsActive = true,
+                SomeObjectIdValue = someObjectIdValue
             };
-
 
             //***********************************************************************************************
             //MongoDBHelper method samples for Test entity
@@ -170,13 +182,16 @@ namespace MongoHeadSample.Controllers
             //public List<T> GetList<T>()
             List<Test> foundItems1 = helper.GetList<Test>();
 
+            //public List<T> GetList<T>(ObjectId Key, string KeyFieldName)
+            List<Test> foundItems2 = helper.GetList<Test>(someObjectIdValue, "SomeObjectIdValue");
+
             //public List<T> GetList<T>(List<Filter> Filter) //Get List by filter
             List<Filter> filterByName1 = new List<Filter>()
             {
                 new Filter { PropertyName = "Name", Operation = Op.Equals, Value = "Hakkı" }
             };
 
-            List<Test> foundItems2 = helper.GetList<Test>(filterByName1);
+            List<Test> foundItems3 = helper.GetList<Test>(filterByName1);
 
             //public T Get<T>(List<Filter> Filter) //get item by filter
             List<Filter> filterByName2 = new List<Filter>()
@@ -227,6 +242,9 @@ namespace MongoHeadSample.Controllers
             testDataToDelete._id = helper.Insert(testDataToDelete);
 
             helper.Delete<Test>(testDataToDelete._id);
+
+
+
 
             //***********************************************************************************************
             //BaseData method samples for Test entity

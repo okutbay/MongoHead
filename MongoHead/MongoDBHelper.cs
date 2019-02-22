@@ -161,8 +161,21 @@ namespace MongoHead
             }
 
             return list;
+        }
 
-
+        /// <summary>
+        /// Returns documents matches ObjectId value in the field with specified KeyFieldName. This field may be default _id field or another field with ObjectId
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="Key"></param>
+        /// <param name="KeyFieldName"></param>
+        /// <returns></returns>
+        public List<T> GetList<T>(ObjectId Key, string KeyFieldName)
+        {
+            IMongoCollection<T> collection = Db.GetCollection<T>(CollectionName);
+            var filter = Builders<T>.Filter.Eq(KeyFieldName, Key);
+            var foundItems = collection.Find(filter).ToList();
+            return foundItems;
         }
 
         /// <summary>
