@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
     <Company>Fabrikafa</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/okutbay/MongoHead</PackageProjectUrl>
@@ -11,6 +11,7 @@
     <PackageTags>MongoDB Helper</PackageTags>
     <Description>Provides the layer for MongoDB operations over .NET driver</Description>
     <Copyright />
+    <AssemblyVersion>0.3.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
