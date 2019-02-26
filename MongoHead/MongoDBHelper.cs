@@ -383,6 +383,22 @@ namespace MongoHead
 
         #endregion
 
+
+        // GENERAL DATABASE METHODS ********************************************************
+        public bool CollectionExists(string CollectionName)
+        {
+            var filter = new BsonDocument("name", CollectionName);
+            var options = new ListCollectionNamesOptions { Filter = filter };
+            return Db.ListCollectionNames(options).Any();
+        }
+
+        public async Task<bool> CollectionExistsAsync(string CollectionName)
+        {
+            var filter = new BsonDocument("name", CollectionName);
+            var collections = await Db.ListCollectionsAsync(new ListCollectionsOptions { Filter = filter });
+            return await collections.AnyAsync();
+        }
+
     }
 
     /// <summary>

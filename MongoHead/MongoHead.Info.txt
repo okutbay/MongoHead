@@ -30,5 +30,8 @@
 0.2.0.0
 - "BaseEntitySimple" simplified use just with _Id to use when no-date is necessary. To achieve this "_DateUtcCreated" property is moved to another base class called "BaseEntityLight" which inherits "BaseEntitySimple". Now "BaseEntity" interis "BaseEntityLight"
 - "BaseEntityComplex" class is added to provide UserId support. Latest base entity hierarchy is: BaseEntitySimple < BaseEntityLight < BaseEntity < BaseEntityComplex
-
+0.3.0.0
+- Added New GetList method to MongoDBHelper class to return a list filtered by an ObjectId in any provided field 
+0.4.0.0
+- Added CollectionExists and CollectionExistsAsync methods to MongoDBHelper class 
 
