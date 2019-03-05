@@ -381,6 +381,42 @@ namespace MongoHead
             }
         }
 
+        /// <summary>
+        /// Deletes all documents that matches the value in named field.
+        /// </summary>
+        /// <typeparam name="T">Related Entity (Collection) type</typeparam>
+        /// <param name="FieldName">Field Name to match the Value</param>
+        /// <param name="Value">Value to match in field named with FieldName</param>
+        /// <param name="DeletedCount">Number of deleted documents</param>
+        /// <returns></returns>
+        public bool DeleteByFieldValue<T>(string FieldName, object Value, out long DeletedCount)
+        {
+            try
+            {
+                IMongoCollection<T> collection = Db.GetCollection<T>(CollectionName);
+
+                List<Filter> filter = new List<Filter>()
+                {
+                    new Filter { PropertyName = FieldName, Operation = Op.Equals, Value = Value }
+                };
+
+                var exp = ExpressionBuilder.GetExpression<T>(filter);
+                var query = Builders<T>.Filter.Where(exp);
+
+                DeleteResult result = collection.DeleteMany(query);
+                DeletedCount = result.DeletedCount;
+
+                return result.IsAcknowledged;
+            }
+            catch (Exception ex)
+            {
+                //log exception code 
+                DeletedCount = 0;
+                return false;
+                //throw ex;
+            }
+        }
+
         #endregion
 
 

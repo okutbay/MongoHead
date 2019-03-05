@@ -34,4 +34,5 @@
 - Added New GetList method to MongoDBHelper class to return a list filtered by an ObjectId in any provided field 
 0.4.0.0
 - Added CollectionExists and CollectionExistsAsync methods to MongoDBHelper class 
+- Added DeleteByFieldValue method to MongoDBHelper class 
 
