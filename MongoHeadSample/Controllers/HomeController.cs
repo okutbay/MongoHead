@@ -322,5 +322,42 @@ namespace MongoHeadSample.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult DeleteByFieldValue()
+        {
+            ViewData["Message"] = "Your application description page.";
+
+            MongoDBConfig config = new MongoDBConfig(
+                _configuration[MongoDBConfig.KeyNameConnectionString],
+                _configuration[MongoDBConfig.KeyNameDatabaseName]
+                );
+
+            ObjectId someObjectIdValue = new ObjectId("5c6e82d721654c50981bddec");
+
+            Test test = new Test()
+            {
+                AliveAndKicking = true,
+                DateOfBirth = new DateTime(1976, 4, 19),
+                Name = "Ozan Kutlu",
+                Surname = "Bayram",
+                _DateUtcCreated = DateTime.Now,
+                _DateUtcModified = DateTime.Now,
+                _IsActive = true,
+                SomeObjectIdValue = someObjectIdValue
+            };
+
+            MongoDBHelper helper = new MongoDBHelper(config, typeof(Parameter));
+
+            helper.Insert(test);
+
+            long deletedCount = 0;
+            bool deleteResult = helper.DeleteByFieldValue<Test>("SomeObjectIdValue", someObjectIdValue, out deletedCount);
+
+            ViewData["DeletedCount"] = deletedCount.ToString();
+            ViewData["DeleteResult"] = deleteResult.ToString();
+
+            return View();
+        }
+        
     }
 }

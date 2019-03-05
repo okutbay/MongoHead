@@ -24,4 +24,10 @@
     <ProjectReference Include="..\MongoHead\MongoHead.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Home\DeleteByFieldValue.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>
