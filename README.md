@@ -8,9 +8,9 @@ https://www.nuget.org/packages/MongoHead/
 
 ## Dependencies
 Here is the list of installed NuGet packages and versions
-1. MongoDB.Driver (v2.7.0)
-1. Microsoft.Extensions.Options (v2.1.1)
-1. Microsoft.Extensions.Configuration (v2.1.1)
+1. MongoDB.Driver (v2.15.0)
+1. Microsoft.Extensions.Options (v6.0.0)
+1. Microsoft.Extensions.Configuration (v6.0.1)
 
 ## Classes
 ### MongoDBHelper
@@ -54,31 +54,35 @@ Add Mongo DB settings to you appsettings.json setting file
 Sample JSON settings:
 ```JSON
 {
-  "MongoDBConfig": {
-    "ConnectionString": "mongodb://localhost",
-    "DatabaseName": "MongoHeadDB"
-  }
+  "Settings": {
+    "MongoDB": {
+      "ConnectionString": "mongodb://localhost",
+      "DatabaseName": "MongoHeadSample"
+    } //MongoDB
+  } //Settings
 }
 ```
 
 :exclamation::exclamation::exclamation: **Information given after this line is draft at the moment** :exclamation::exclamation::exclamation:
 
 ## Sample Application Organization
-Of course there may be lots of different achitectures. We are going to keep it simple and follow n-layered architecture. Different samples using different aproches are appreciated. :)
+Our sample application is an ASP.NET Razor Pages application for .NET 6
+Of course there may be lots of different achitectures. We are going to keep it simple and follow n-layered architecture. Different samples using different approaches are appreciated. :)
 
 ### Entities
 You need entities to interact with mongodb collection. If you have an entity named X you are going a have collection with name X in your database.
 Your entity classes may inherit our "BaseEntity" class provided by MongoHead. With this inheritence all your class will have same base fiels in your database.
 To show a simple entity implementation, our sample application contains an entity named "Test". 
+Sample entity may be found in "/Model" folder of the sample app.
 
 ### Data Layers
-Coming soon
+Sample data layer may be found in "/Data" folder of the sample app.
 
 ### Business Layers
-Coming soon
+Sample business layer may be found in "/Business" folder of the sample app.
 
-
-> **PS: To keep things in one place we've placed entity, data layer and business layer in to the same class file**
+### ViewModels 
+Sample viewmodel may be found in "/ViewModels" folder of the sample app.
 
 # MongoDB
 Setup and installation details can be obtained from official web site. 
