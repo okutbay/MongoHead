@@ -47,7 +47,7 @@ public class FormModel : PageModel
     [BindProperty]
     public InputModel Input { get; set; }
 
-    public void OnGet(string? personid)
+    public IActionResult OnGet(string? personid)
     {
         if (!ModelState.IsValid)
         {
@@ -87,6 +87,8 @@ public class FormModel : PageModel
             default:
                 break;
         }
+
+        return Page();
     }
 
     public async Task<IActionResult> OnPostAsync()

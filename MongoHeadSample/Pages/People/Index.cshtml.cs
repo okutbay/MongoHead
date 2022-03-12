@@ -40,6 +40,9 @@ public class IndexModel : PageModel
 
     public async void OnGetAsync()
     {
+        PersonBusiness personBusiness = new PersonBusiness(_configuration);
+        PersonList = personBusiness.GetAllPersons();
+
         ////classic way
         //var client = new MongoClient(connectionString);
         //var db = client.GetDatabase(databaseName);
