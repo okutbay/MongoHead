@@ -1,0 +1,21 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="text-center">
+                <img src="~/images/mongohead-logo-icon.png" alt="MongoHeadSample" height="150px" />
+                <h1 class="display-4">Welcome mongohead <br />Sample Application</h1>
+                <p>
+                    <b>Connection String To Database: </b>@Model.ConnectionString<br />
+                    <b>Database Name: </b>@Model.DatabaseName<br />
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+

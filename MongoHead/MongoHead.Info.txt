@@ -22,17 +22,26 @@
 - MongoDBHelper GetByObjectId method bugfix
 - BaseData, Filter, MongoDBHelper naming refactorings
 - IBaseData method signatures refactored
-- BaseData GetKeyValueList method signatures refactored and valueFieldName variable is changed to $"{CollectionName}Value". With this change our method is going to values from the XValue column.
+- BaseData GetKeyValueList method signatures refactored and valueFieldName variable is changed to $"{CollectionName}Value". With this change our method is going to get values from the XValue column.
 - BaseData GetKeyValueList method modified to use Named string interpolation instead of String.Format
 - MongoDBHelper Save method is removed and 2 new methods added for Insert and Replace operations.
 - BaseData Save method is modified to reflect changes in MongoDBHelper
 - BaseEntity simplified to use with log objects. BaseData Save method is modified to check unexisted properties.
 0.2.0.0
-- "BaseEntitySimple" simplified use just with _Id to use when no-date is necessary. To achieve this "_DateUtcCreated" property is moved to another base class called "BaseEntityLight" which inherits "BaseEntitySimple". Now "BaseEntity" interis "BaseEntityLight"
+- "BaseEntitySimple" simplified use just with _id to use when no-date is necessary. To achieve this "_DateUtcCreated" property is moved to another base class called "BaseEntityLight" which inherits "BaseEntitySimple". Now "BaseEntity" inherits "BaseEntityLight"
 - "BaseEntityComplex" class is added to provide UserId support. Latest base entity hierarchy is: BaseEntitySimple < BaseEntityLight < BaseEntity < BaseEntityComplex
 0.3.0.0
 - Added New GetList method to MongoDBHelper class to return a list filtered by an ObjectId in any provided field 
 0.4.0.0
 - Added CollectionExists and CollectionExistsAsync methods to MongoDBHelper class 
 - Added DeleteByFieldValue method to MongoDBHelper class 
+0.5.0.0
+- Upgraded target fremwork to .NET 6.0
+- Upgraded Microsoft.Extensions.Configuration to 6.0.0
+- Upgraded Microsoft.Extensions.Options to 6.0.0
+- Upgraded MongoDB.Driver to 2.14.1
+- BUGFIX: _UserId property type is changed from int to string to support ObjectId values
+- Config change: "MongoDBConfig" renamed to "MongoDB" and moved under settings configuration section. Also "MongoDBConfig" class is obsolete and we have a new config class name "Config"
+- "MongoDBHelper" type is now generic: "MongoDBHelper<T>"
+
 

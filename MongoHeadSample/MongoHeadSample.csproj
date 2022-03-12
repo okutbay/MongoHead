@@ -1,23 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Application\**" />
-    <Content Remove="Application\**" />
-    <EmbeddedResource Remove="Application\**" />
-    <None Remove="Application\**" />
+    <Compile Remove="PersonData.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
+    <Content Include="Data\PersonData.cs" />
+    <Content Include="Models\Person.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,9 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\Home\DeleteByFieldValue.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
+    <Folder Include="Interfaces\" />
   </ItemGroup>
 
 </Project>

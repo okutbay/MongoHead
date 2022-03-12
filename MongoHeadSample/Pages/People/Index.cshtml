@@ -1,0 +1,109 @@
+﻿@page
+@model MongoHeadSample.Pages.People.IndexModel
+
+
+@using Microsoft.AspNetCore.Antiforgery
+@inject IAntiforgery antiforgery
+@{
+    var token = antiforgery.GetAndStoreTokens(HttpContext).RequestToken;
+}
+<input type="hidden" id="__RequestVerificationToken" name="__RequestVerificationToken" value="@token">
+
+@{
+    var row = 1;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>People Management</h1>
+            <p>Here is the list of people to manage.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn-lg btn-success" onclick="document.location.href='/people/form';">Add New</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Actions</th>
+                        <th scope="col">#</th>
+                        <th scope="col">Full Name</th>
+                        <th scope="col">Age</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.PersonList)
+                    {
+                        var btnEdit = $"<i class=\"fas fa-pen\" onclick=\"document.location.href='/people/form?personid={item._id}';\" style=\"cursor: pointer\" data-toggle=\"tooltip\" data-placement=\"top\" value=\"\" title =\"Edit Person\"></i>";
+                        var btnDelete = $"<i class=\"fas fa-trash\" onclick=\"DeletePerson('{item._id}')\" style=\"cursor: pointer\" data-toggle=\"tooltip\" data-placement=\"top\" value=\"\" title =\"Delete Person\"></i>";
+
+                        <tr>
+                            <td>
+                                @Html.Raw(btnEdit)
+                                @Html.Raw(btnDelete)
+                            </td>
+                            <td scope="row">@row</td>
+                            <td>@item.FullName</td>
+                            <td>@item.Age</td>
+                        </tr>
+
+                        row++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section PageSpecificScripts {
+<script type="text/javascript">
+        $(document).ready(function () {
+            $('input:text[value=""]:first').focus();//Focus First Empty Input:
+        });
+
+        //DeletePerson *********************************************************************
+
+        function DeletePerson(PersonId) {
+            console.log("Entered method: DeletePerson");
+            console.log("PersonId: " + PersonId);
+
+            var obj = {};
+            obj._id = PersonId;
+
+            var result = confirm("You are about to delete a person, do you want to continue with delete operation?");
+
+            if (result) {
+                $.ajax({
+                    type: "POST",
+                    url: '/people/index?handler=DeletePerson',
+                    data: JSON.stringify(obj),
+                    contentType: "application/json; charset=utf-8",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("XSRF-TOKEN",
+                            $('input:hidden[name="__RequestVerificationToken"]').val());
+                    },
+                    dataType: "json",
+                    error: function (xhr, status, errorThrown) {
+                        var err = "Status: " + status + " " + errorThrown;
+                        console.log(err);
+                        console.warn(xhr.responseText)
+                    }
+                }).done(function (data) {
+                    var msg = "result: " + data;
+                    console.log(msg);
+                    //alert('Delete completed!');
+                    window.location = "/people";
+                })
+            }
+        }
+
+        //END: DeletePerson ****************************************************************
+</script>
+}
