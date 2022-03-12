@@ -1,61 +1,90 @@
 ﻿@page "{personid?}"
 @model MongoHeadSample.Pages.People.FormModel
 @{
+    var operationType = Model.Input.OperationType;
+    //var message = Model.Message;
+    
 }
 
-<div class="container">
-
-  <div class="row">
-    <div class="col">
-    <h1>People Add Form</h1>
-    <p>With this form you can add person</p>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col">
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col">
-        <form method="post">
-            <div class="form-group">
-                <label asp-for="Input.PersonViewModel.FirstName"></label><br />
-                <input asp-for="Input.PersonViewModel.FirstName" class="form-control">
-                <span asp-validation-for="Input.PersonViewModel.FirstName" class="text-danger"></span>
+@{
+    if (String.IsNullOrEmpty(Model.Message))
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h1>People @operationType.ToString() Form</h1>
+                    <p>With this form you can @operationType.ToString().ToLower() person</p>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label asp-for="Input.PersonViewModel.LastName"></label><br />
-                <input asp-for="Input.PersonViewModel.LastName" class="form-control">
-                <span asp-validation-for="Input.PersonViewModel.LastName" class="text-danger"></span>
+            <div class="row">
+                <div class="col">
+                </div>
             </div>
 
-            <div class="form-group">
-                <label asp-for="Input.PersonViewModel.Age"></label><br />
-                <input asp-for="Input.PersonViewModel.Age" class="form-control">
-                <span asp-validation-for="Input.PersonViewModel.Age" class="text-danger"></span>
+            <div class="row">
+                <div class="col">
+                    <form method="post">
+                        <div class="form-group">
+                            <label asp-for="Input.PersonViewModel.FirstName"></label><br />
+                            <input asp-for="Input.PersonViewModel.FirstName" class="form-control">
+                            <span asp-validation-for="Input.PersonViewModel.FirstName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Input.PersonViewModel.LastName"></label><br />
+                            <input asp-for="Input.PersonViewModel.LastName" class="form-control">
+                            <span asp-validation-for="Input.PersonViewModel.LastName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Input.PersonViewModel.Age"></label><br />
+                            <input asp-for="Input.PersonViewModel.Age" class="form-control">
+                            <span asp-validation-for="Input.PersonViewModel.Age" class="text-danger"></span>
+                        </div>
+                        <br />
+                        <button type="submit" class="btn-lg btn-success">Save</button>
+                        <button type="button" class="btn-lg btn-secondary" onclick="document.location.href='/people';">Cancel</button>
+
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
+                        <input asp-for="Input.PersonViewModel._id" type="hidden">
+                        <input asp-for="Input.OperationType" type="hidden">
+                    </form>
+                </div>
+                <div class="col">
+                </div>
             </div>
-            <br/>
-            <button type="submit" class="btn-lg btn-success">Save</button>
-            <button type="button" class="btn-lg btn-secondary" onclick="document.location.href='/people';">Cancel</button>
+        </div>
+    }
+    else
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h1>People @operationType.ToString() Completed!</h1>
+                    <p>@Html.Raw(Model.Message)</p>
+                </div>
+            </div>
 
-            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row">
+                <div class="col">
+                    @if(operationType == OperationTypeEnum.Add){ 
+                    <button type="button" class="btn-lg btn-success" onclick="document.location.href='/people/form';">Add New</button>
+                    }
+                    <button type="button" class="btn-lg btn-secondary" onclick="document.location.href='/people';">Return The List</button>
+                </div>
+            </div>
+        </div>
 
-            <input asp-for="Input.PersonViewModel._id" type="hidden">
-        </form>
-    </div>
-    <div class="col">
-    </div>
-  </div>
-
-</div>
+        Model.Message = string.Empty;
+    }
+}
 
 @section PageSpecificScripts {
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('input:text[value=""]:first').focus();//Focus First Empty Input:
-        });
-    </script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('input:text[value=""]:first').focus();//Focus First Empty Input:
+    });
+</script>
 }

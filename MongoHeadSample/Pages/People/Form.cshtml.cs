@@ -24,6 +24,7 @@ public class FormModel : PageModel
         _logger = logger;
         _configuration = configuration;
         Input = new InputModel();
+        Message = string.Empty;
 
         fabrikafaSettings = _configuration.Get<FabrikafaSettings>();
         connectionString = fabrikafaSettings.Settings.MongoDB.ConnectionString;
@@ -46,6 +47,9 @@ public class FormModel : PageModel
 
     [BindProperty]
     public InputModel Input { get; set; }
+
+    [TempData]
+    public string Message { get; set; }
 
     public IActionResult OnGet(string? personid)
     {
@@ -96,6 +100,7 @@ public class FormModel : PageModel
         if (!ModelState.IsValid)
         {
             ModelState.AddModelError("Save error!", "Unable to save! Please fix all validation error(s).");
+            return Page();
         }
 
         PersonViewModel PersonViewModel = this.Input.PersonViewModel;
@@ -116,7 +121,7 @@ public class FormModel : PageModel
 
         personBusiness.AddUpdatePerson(item);
 
-
+        Message = $"Operation {Input.OperationType.ToString()} completed successfuly for person <b>'{item.FullName}'</b>";
 
         await Task.CompletedTask;
 
