@@ -20,8 +20,6 @@ public class IndexModel : PageModel
 
     public List<Person> PersonList { get; set; }
 
-    public PersonViewModel PersonViewModel { get; set; }
-
     public IndexModel(IConfiguration configuration, ILogger<IndexModel> logger)
     {
         _logger = logger;
@@ -29,36 +27,14 @@ public class IndexModel : PageModel
         PersonList = new List<Person>();
 
         fabrikafaSettings = _configuration.Get<FabrikafaSettings>();
-
-        //connectionString = _configuration["Settings:MongoDB:ConnectionString"];
-        //databaseName = _configuration["Settings:MongoDB:DatabaseName"];
-
         connectionString = fabrikafaSettings.Settings.MongoDB.ConnectionString;
         databaseName = fabrikafaSettings.Settings.MongoDB.DatabaseName;
-        collectionName = "People";//In the MongoHead way we don't need collection names. Collection names come from entinty class names and derived from BaseData class.
     }
 
     public async void OnGetAsync()
     {
         PersonBusiness personBusiness = new PersonBusiness(_configuration);
         PersonList = personBusiness.GetAllPersons();
-
-        ////classic way
-        //var client = new MongoClient(connectionString);
-        //var db = client.GetDatabase(databaseName);
-        //var collection = db.GetCollection<m.Person>(collectionName);
-
-        //var person1 = new m.Person { FirstName = "Some", LastName = "Person", Age = 40 };
-
-        //await collection.InsertOneAsync(person1);
-
-        //var results = await collection.FindAsync(_ => true); //return every record
-        //var resultList = results.ToList();
-
-        ////MongoHead way
-        //var person2 = new m.Person { FirstName = "SomeOther", LastName = "Person", Age = 45 };
-        //PersonBusiness personBusiness = new PersonBusiness(_configuration);
-        //personBusiness.AddNewPerson(person2);
 
         await Task.CompletedTask;
     }
