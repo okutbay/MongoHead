@@ -61,9 +61,11 @@ public class FormModel : PageModel
 
         if (string.IsNullOrEmpty(personid))
         {
+            personid = ObjectId.Empty.ToString();
+
             this.Input.OperationType = OperationTypeEnum.Add;
             this.Input.PersonViewModel = new PersonViewModel();
-            this.Input.PersonViewModel._id = ObjectId.Empty.ToString();
+            this.Input.PersonViewModel._id = personid;
         }
         else
         {
