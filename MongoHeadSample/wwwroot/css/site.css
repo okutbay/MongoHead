@@ -16,3 +16,7 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+#search-container {
+    text-align:right;
+}

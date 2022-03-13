@@ -25,6 +25,12 @@
         <div class="col">
             <button type="button" class="btn-lg btn-success" onclick="document.location.href='/people/form';">Add New</button>
         </div>
+        <div id="search-container" class="col">
+            <form method="post">
+            <input type="text" id="searchtext" name="searchtext" value="" />
+            <i class="fas fa-search" onclick="" style="cursor: pointer" data-toggle="tooltip" data-placement="top" value="" title ="Search Person"></i>
+            </form>
+        </div>
     </div>
 
     <div class="row">
@@ -57,6 +63,11 @@
                         row++;
                     }
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">@Model.PersonList.Count() Items Listed</td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>

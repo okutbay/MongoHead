@@ -44,12 +44,24 @@ public class IndexModel : PageModel
         await Task.CompletedTask;
     }
 
-    public async Task<IActionResult> OnPostAsync()
+    public async Task<IActionResult> OnPostAsync(string searchtext)
     {
-        if (!ModelState.IsValid)
+
+        PersonBusiness personBusiness = new PersonBusiness(_configuration);
+        List<Person> Persons = personBusiness.GetAllPersons();
+
+        if (string.IsNullOrEmpty(searchtext))
         {
-            ModelState.AddModelError("Save error!", "Unable to save!");
-            return Page();
+            PersonList = _mapper.Map<List<Person>, List<PersonViewModel>>(Persons);
+        }
+        else
+        {
+            Predicate<Person> searchFullName = s => s.FullName.ToLower().Contains(searchtext.ToLower())
+                || s.FirstName.ToLower().Contains(searchtext.ToLower())
+                || s.LastName.ToLower().Contains(searchtext.ToLower());
+            List<Person> foundItems = Persons.FindAll(searchFullName);
+
+            PersonList = _mapper.Map<List<Person>, List<PersonViewModel>>(foundItems);
         }
 
         await Task.CompletedTask;
