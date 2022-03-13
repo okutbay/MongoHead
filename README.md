@@ -1,5 +1,5 @@
 # MongoHead
-Provides the layer for MongoDB operations over .NET driver 2.15.0. Also MongoHead includes a BaseData and BaseEntity class to speed up your application development process
+Provides the layer for MongoDB operations over .NET driver 2.15.0. Also MongoHead includes a BaseData and BaseEntity class to speed up your application development process.
 MongoHead is a .NET 6.0 Library
 
 ## Installation
@@ -84,6 +84,11 @@ Sample business layer may be found in "/Business" folder of the sample app.
 ### ViewModels 
 Sample viewmodel may be found in "/ViewModels" folder of the sample app.
 
+### Pages/People
+Wraps all elements with two pages: a list page (/pages/people/index) and a form page (/pages/people/form).
+List page has search and delete samples.
+Form page has add/update samples.
+
 # MongoDB
 Setup and installation details can be obtained from official web site. 
 
@@ -93,28 +98,11 @@ For setup please visit https://www.mongodb.com/download-center?jmp=nav#community
 ## MongoDB Community Server Installation steps for Windows
 https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/
 
-
 # AutoMapper
 In our sample projects we prefer to use automapper to map our objects between presentation and data layer
-
-NuGet package installation
-```
-PM> Install-Package AutoMapper
-```
-
-When I'm trying to configure a had difficulty to find 'AddAutoMapper' extension method. To have it install this package too
-```
-PM> install-package AutoMapper.Extensions.Microsoft.DependencyInjection
-```
-
-If you don't install and try to use method you will have this error. :boom:
-```
-'IServiceCollection' does not contain a definition for 'AddAutoMapper' 
-and no extension method 'AddAutoMapper' accepting a first argument of type 'IServiceCollection' could be found 
-are you missing a using directive or an assembly reference?
-```
-
+For more informtation: https://automapper.org/
 
 ## References
 * [Download MongoDB](https://www.mongodb.com/download-center?jmp=nav#community)
 * [Windows Installation](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
+* [Automapper](https://automapper.org/)
