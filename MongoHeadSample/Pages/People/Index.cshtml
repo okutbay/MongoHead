@@ -26,9 +26,9 @@
             <button type="button" class="btn-lg btn-success" onclick="document.location.href='/people/form';">Add New</button>
         </div>
         <div id="search-container" class="col">
-            <form method="post">
-            <input type="text" id="searchtext" name="searchtext" value="" />
-            <i class="fas fa-search" onclick="" style="cursor: pointer" data-toggle="tooltip" data-placement="top" value="" title ="Search Person"></i>
+            <form id="searchform" method="post">
+                <input type="text" id="searchtext" name="searchtext" value="" />
+                <i id="SearchButton" class="fas fa-search" onclick="" style="cursor: pointer" data-toggle="tooltip" data-placement="top" value="" title ="Search Person"></i>
             </form>
         </div>
     </div>
@@ -77,6 +77,10 @@
 <script type="text/javascript">
         $(document).ready(function () {
             $('input:text[value=""]:first').focus();//Focus First Empty Input:
+        });
+
+        $('#SearchButton').click(function() {
+            $('#searchform').submit();
         });
 
         //DeletePerson *********************************************************************
