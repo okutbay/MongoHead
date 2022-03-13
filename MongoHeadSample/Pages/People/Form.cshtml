@@ -2,8 +2,6 @@
 @model MongoHeadSample.Pages.People.FormModel
 @{
     var operationType = Model.Input.OperationType;
-    //var message = Model.Message;
-    
 }
 
 @{
@@ -84,7 +82,7 @@
 @section PageSpecificScripts {
 <script type="text/javascript">
     $(document).ready(function () {
-        $('input:text[value=""]:first').focus();//Focus First Empty Input:
+        $('#Input_PersonViewModel_FirstName').focus().select();
     });
 </script>
 }
