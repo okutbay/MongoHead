@@ -23,6 +23,8 @@ public class PersonViewModel
     [Display(Name = "Last Name")]
     public string LastName { get; set; }
 
+    public string FullName => $"{FirstName} {LastName}";
+
     [Required(ErrorMessage = "Age field is required.")]
     [Range(0, 150, ErrorMessage = "Age Value for {0} must be between {1} and {2}.")]
     [Display(Name = "Age Of The Person")]
