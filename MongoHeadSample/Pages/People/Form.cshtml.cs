@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Bson;
@@ -12,6 +13,7 @@ public class FormModel : PageModel
 {
     private readonly IConfiguration _configuration;
     private readonly ILogger<IndexModel> _logger;
+    public readonly IMapper _mapper;
 
     private readonly FabrikafaSettings fabrikafaSettings;
 
@@ -19,17 +21,18 @@ public class FormModel : PageModel
     string databaseName = string.Empty;
     string collectionName = string.Empty;
 
-    public FormModel(IConfiguration configuration, ILogger<IndexModel> logger)
+    public FormModel(IConfiguration configuration, ILogger<IndexModel> logger, IMapper mapper)
     {
         _logger = logger;
         _configuration = configuration;
+        _mapper = mapper;
+
         Input = new InputModel();
         Message = string.Empty;
 
         fabrikafaSettings = _configuration.Get<FabrikafaSettings>();
         connectionString = fabrikafaSettings.Settings.MongoDB.ConnectionString;
         databaseName = fabrikafaSettings.Settings.MongoDB.DatabaseName;
-        collectionName = "People";//In the MongoHead way we don't need collection names. Collection names come from entinty class names and derived from BaseData class.
     }
 
     public class InputModel
@@ -81,11 +84,7 @@ public class FormModel : PageModel
                 Person foundItem = personBusiness.GetPerson(personid);
 
                 if (foundItem != null) {
-                    //TODO: Will use automapper later
-                    Input.PersonViewModel._id = foundItem._id.ToString();
-                    Input.PersonViewModel.FirstName = foundItem.FirstName;
-                    Input.PersonViewModel.LastName = foundItem.LastName;
-                    Input.PersonViewModel.Age = foundItem.Age;
+                    Input.PersonViewModel = _mapper.Map<Person, PersonViewModel>(foundItem);
                 }
                 break;
             case OperationTypeEnum.Remove:
@@ -115,11 +114,7 @@ public class FormModel : PageModel
             item = new Person();
         }
 
-        //TODO: Will use automapper later
-        //item._id = new ObjectId(Input.PersonViewModel._id);
-        item.FirstName = Input.PersonViewModel.FirstName;
-        item.LastName = Input.PersonViewModel.LastName;
-        item.Age = Input.PersonViewModel.Age;
+        item = _mapper.Map<PersonViewModel, Person>(Input.PersonViewModel);
 
         personBusiness.AddUpdatePerson(item);
 

@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Driver;
@@ -11,6 +12,7 @@ public class IndexModel : PageModel
 {
     private readonly IConfiguration _configuration;
     private readonly ILogger<IndexModel> _logger;
+    public readonly IMapper _mapper;
 
     private readonly FabrikafaSettings fabrikafaSettings;
 
@@ -18,13 +20,14 @@ public class IndexModel : PageModel
     string databaseName = string.Empty;
     string collectionName = string.Empty;
 
-    public List<Person> PersonList { get; set; }
+    public List<PersonViewModel> PersonList { get; set; }
 
-    public IndexModel(IConfiguration configuration, ILogger<IndexModel> logger)
+    public IndexModel(IConfiguration configuration, ILogger<IndexModel> logger, IMapper mapper)
     {
         _logger = logger;
         _configuration = configuration;
-        PersonList = new List<Person>();
+        _mapper = mapper;
+        PersonList = new List<PersonViewModel>();
 
         fabrikafaSettings = _configuration.Get<FabrikafaSettings>();
         connectionString = fabrikafaSettings.Settings.MongoDB.ConnectionString;
@@ -34,7 +37,9 @@ public class IndexModel : PageModel
     public async void OnGetAsync()
     {
         PersonBusiness personBusiness = new PersonBusiness(_configuration);
-        PersonList = personBusiness.GetAllPersons();
+        List<Person> Persons = personBusiness.GetAllPersons();
+
+        PersonList = _mapper.Map<List<Person>, List<PersonViewModel>>(Persons);
 
         await Task.CompletedTask;
     }

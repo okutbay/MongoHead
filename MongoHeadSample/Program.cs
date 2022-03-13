@@ -5,6 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 // This is required for AJAX requests to validate token in "__RequestVerificationToken" hidden input
 builder.Services.AddAntiforgery(options => options.HeaderName = "XSRF-TOKEN");
 
