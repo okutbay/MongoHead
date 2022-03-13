@@ -17,7 +17,7 @@ Here is the list of installed NuGet packages and versions
 Helper for mongodb operations. Provides CRUD operations.
 Needs MongoDBConfig instance to configure connection to Db and and a Type to operate with it. Type names are equal to the collection names in MongoHead ecosystem.
 
-:loudspeaker: **We assume that your entity (type) has inherited BaseEntity and these some properties by defalt. Please check [BaseEntity class](../blob/master/README.md#baseentity-classes-baseentitysimple-baseentitylight-baseentity-baseentitycomplex)**
+:loudspeaker: **We assume that your entity (type) has inherited BaseEntity and these some properties by defalt. Please check [BaseEntity class](https://github.com/okutbay/MongoHead#baseentity-classes-baseentitysimple-baseentitylight-baseentity-baseentitycomplex)**
 
 ### MongoDBConfig
 Simple class used to transfer database connection parameters to our MongoDBhelper class
