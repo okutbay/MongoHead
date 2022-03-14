@@ -10,6 +10,9 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // This is required for AJAX requests to validate token in "__RequestVerificationToken" hidden input
 builder.Services.AddAntiforgery(options => options.HeaderName = "XSRF-TOKEN");
 
+
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
 var app = builder.Build();
 
 #region Configuration
@@ -46,14 +49,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
-//app.UseEndpoints(endpoints =>
-//{
-//    endpoints.MapControllerRoute(
-//        name: "default",
-//        pattern: "{controller=Home}/{action=Index}/{id?}");
-//    endpoints.MapRazorPages();
-//});
 
 app.UseAuthorization();
 
