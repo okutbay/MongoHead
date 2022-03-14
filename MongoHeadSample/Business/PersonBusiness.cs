@@ -74,4 +74,57 @@ public class PersonBusiness
         personData.Delete(person._id);
     }
 
+    /// <summary>
+    /// Seeds the Person collection
+    /// </summary>
+    public void Seed()
+    {
+        Person person = new Person() {
+            FirstName = "Ozan Kutlu",
+            LastName = "Bayram",
+            Age = 46
+        };
+        this.AddUpdatePerson(person);
+
+        person = new Person()
+        {
+            FirstName = "Burcu",
+            LastName = "Bayram",
+            Age = 34
+        };
+        this.AddUpdatePerson(person);
+
+        person = new Person()
+        {
+            FirstName = "Melis",
+            LastName = "Bayram",
+            Age = 14
+        };
+        this.AddUpdatePerson(person);
+
+        person = new Person()
+        {
+            FirstName = "Ahmet",
+            LastName = "Kara",
+            Age = 3
+        };
+        this.AddUpdatePerson(person);
+    }
+
+    /// <summary>
+    /// Creates the index for person table to remove documents older than 2 days
+    /// </summary>
+    public async void CreateIndexAsync_ResetTableT2Days()
+    {
+        string indexName = "ResetPersonTableT2Days";
+        TimeSpan duration = TimeSpan.FromDays(2);
+        try
+        {
+            await personData.CreateIndexExpireAfterDuration(indexName, duration);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
 }

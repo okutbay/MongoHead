@@ -257,7 +257,7 @@ public class BaseData<T> : IBaseData<T>
     public Task<List<T>> GetListAsync(List<Filter> Filter, bool UseAndLogic = true)
     {
         //var filter = Builders<T>.Filter.Eq("_id", "");
-        FilterDefinition<T> nameFilter = Builders<T>.Filter.Eq("_id", "Justine Picardie");
+        //FilterDefinition<T> nameFilter = Builders<T>.Filter.Eq("_id", "");
         //FilterDefinition inStockFilter = Builders<T>.Filter.Eq(x => x.InStock, true);
         //FilterDefinition combineFilters = Builders<T>.Filter.And(nameFilter, inStockFilter);
 
@@ -270,5 +270,32 @@ public class BaseData<T> : IBaseData<T>
         return collection.InsertOneAsync(ObjectToSave);
 
         //return collection.ReplaceOneAsync(ObjectToSave, new ReplaceOptions { IsUpsert = true });
+    }
+
+    /// <summary>
+    /// Creates a descending index for base date fields to expire after duration of time
+    /// </summary>
+    /// <param name="IndexName">Name of the Index</param>
+    /// <param name="Duration">Duration to keep documents in the collection</param>
+    /// <param name="ModifiedDate">Use Modified Date on collection or not. If false method created index for Create date</param>
+    /// <returns></returns>
+    public async Task CreateIndexExpireAfterDuration(string IndexName, TimeSpan Duration, bool ModifiedDate=false)
+    {
+        var fieldName = string.Empty;
+        string duration = Duration.TotalSeconds.ToString();
+
+        if (ModifiedDate)
+        {
+            fieldName = DateUtcModifiedFieldName;
+        }
+        else
+        {
+            fieldName = DateUtcCreatedFieldName;
+        }
+
+        var commandStr = "{ createIndexes: '" + CollectionName + "', indexes: [ { key: { " + fieldName + ": -1 }, name: '" + IndexName + "', unique: false, expireAfterSeconds: "+ duration + ", sparse: true, background: true } ] }";
+
+        var cmd = BsonDocument.Parse(commandStr);
+        await Helper.Db.RunCommandAsync<BsonDocument>(cmd);
     }
 }
