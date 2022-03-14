@@ -260,3 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 /MongoHead/Properties/PublishProfiles/FolderProfile.pubxml
+/MongoHeadSample/Properties/PublishProfiles/FolderProfile.pubxml

@@ -39,6 +39,14 @@ public class IndexModel : PageModel
         PersonBusiness personBusiness = new PersonBusiness(_configuration);
         List<Person> Persons = personBusiness.GetAllPersons();
 
+        //Seeding logic: If there is not any record
+        if (Persons.Count == 0)
+        {
+            personBusiness.Seed();
+            personBusiness.GetAllPersons();
+            personBusiness.CreateIndexAsync_ResetTableT2Days();
+        }
+
         PersonList = _mapper.Map<List<Person>, List<PersonViewModel>>(Persons);
 
         await Task.CompletedTask;

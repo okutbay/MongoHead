@@ -2,7 +2,7 @@
 
 namespace MongoHeadSample.Models;
 
-public class Person: BaseEntitySimple
+public class Person: BaseEntityLight
 {
     public Person()
     { 

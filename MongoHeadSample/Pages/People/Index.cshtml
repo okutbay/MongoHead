@@ -65,7 +65,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="4">@Model.PersonList.Count() Items Listed</td>
+                        <td colspan="4"><b>@Model.PersonList.Count()</b> items listed</td>
                     </tr>
                 </tfoot>
             </table>
@@ -84,7 +84,6 @@
         });
 
         //DeletePerson *********************************************************************
-
         function DeletePerson(PersonId) {
             console.log("Entered method: DeletePerson");
             console.log("PersonId: " + PersonId);
@@ -118,7 +117,6 @@
                 })
             }
         }
-
         //END: DeletePerson ****************************************************************
 </script>
 }
