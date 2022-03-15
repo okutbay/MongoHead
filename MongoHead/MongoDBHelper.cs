@@ -535,4 +535,15 @@ public class MongoDBHelper<TT>
 
         return collection;
     }
+
+    /// <summary>
+    /// Runs command.
+    /// </summary>
+    /// <param name="CommandString">Command</param>
+    /// <returns></returns>
+    public async Task RunCommandAsync(string CommandString)
+    {
+        var command = BsonDocument.Parse(CommandString);
+        await this.Db.RunCommandAsync<BsonDocument>(command);
+    }
 }

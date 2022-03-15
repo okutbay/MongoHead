@@ -47,5 +47,6 @@
 ## 0.5.1.0
 - Added CreateIndexExpireAfterDuration function for BaseData class. With this function we may create TTL indexes for date fields like "_DateUtcCreated" or "_DateUtcModified"
 ## 0.5.2.0
-- "MongoHead.Info.txt" file renamed to and format changed to markdown. -> "MongoHead.VersionInfo.md"
+- "MongoHead.Info.txt" file renamed to and format changed to markdown. -> "MongoHead.VersionInfo.md".
+- "RunCommand" function to "MongoDBHelper". And "CreateIndexExpireAfterDuration" function modified accordingly.
 
