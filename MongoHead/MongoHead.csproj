@@ -51,7 +51,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="cd $(OutDir) &#xD;&#xA;copy $(TargetFileName) C:\_References\Fabrikafa\$(ProjectName)&#xD;&#xA;copy *.md C:\_References\Fabrikafa\$(ProjectName)" />
+    <Exec Command="cd $(OutDir) &#xD;&#xA;copy $(TargetFileName) D:\_References\Fabrikafa\$(ProjectName)&#xD;&#xA;copy *.md D:\_References\Fabrikafa\$(ProjectName)" />
   </Target>
 
 </Project>
