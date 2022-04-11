@@ -28,6 +28,12 @@ public class Config
         DatabaseName = _configuration[keyNameDatabaseName];
     }
 
+    public Config(string ConnectionString, string DatabaseName)
+    {
+        this.ConnectionString = ConnectionString;
+        this.DatabaseName = DatabaseName;
+    }
+
     public string ConnectionString { get; set; }
     public string DatabaseName { get; set; }
 }
