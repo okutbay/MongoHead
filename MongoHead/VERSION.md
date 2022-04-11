@@ -1,0 +1,3 @@
+VERSION HISTORY
+
+- v0.5.2
