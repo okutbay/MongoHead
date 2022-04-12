@@ -49,4 +49,6 @@
 ## 0.5.2.0
 - "MongoHead.Info.txt" file renamed to and format changed to markdown. -> "MongoHead.VersionInfo.md".
 - "RunCommand" function to "MongoDBHelper". And "CreateIndexExpireAfterDuration" function modified accordingly.
-
+- New constructor option for "MongoHead.Config" class with ConnectionString and DatabaseName
+- New constructor option for "MongoHead.MongoDBHelper" class with ConnectionString and DatabaseName and 
+- "MongoHead.MongoDBHelper" refactored.
