@@ -1,5 +1,5 @@
 ﻿# MongoHead Version Info
-## 0.1.0.0
+## 0.1.0
 - Initial version
 - Migrating existing methods to this project
 - New helper methods implemented
@@ -28,15 +28,15 @@
 - MongoDBHelper Save method is removed and 2 new methods added for Insert and Replace operations.
 - BaseData Save method is modified to reflect changes in MongoDBHelper
 - BaseEntity simplified to use with log objects. BaseData Save method is modified to check unexisted properties.
-## 0.2.0.0
+## 0.2.0
 - "BaseEntitySimple" simplified use just with _id to use when no-date is necessary. To achieve this "_DateUtcCreated" property is moved to another base class called "BaseEntityLight" which inherits "BaseEntitySimple". Now "BaseEntity" inherits "BaseEntityLight"
 - "BaseEntityComplex" class is added to provide UserId support. Latest base entity hierarchy is: BaseEntitySimple < BaseEntityLight < BaseEntity < BaseEntityComplex
-## 0.3.0.0
+## 0.3.0
 - Added New GetList method to MongoDBHelper class to return a list filtered by an ObjectId in any provided field 
-## 0.4.0.0
+## 0.4.0
 - Added CollectionExists and CollectionExistsAsync methods to MongoDBHelper class 
 - Added DeleteByFieldValue method to MongoDBHelper class 
-## 0.5.0.0
+## 0.5.0
 - Upgraded target fremwork to .NET 6.0
 - Upgraded Microsoft.Extensions.Configuration to 6.0.0
 - Upgraded Microsoft.Extensions.Options to 6.0.0
@@ -44,11 +44,13 @@
 - BUGFIX: _UserId property type is changed from int to string to support ObjectId values
 - Config change: "MongoDBConfig" renamed to "MongoDB" and moved under settings configuration section. Also "MongoDBConfig" class is obsolete and we have a new config class name "Config"
 - "MongoDBHelper" type is now generic: "MongoDBHelper<T>"
-## 0.5.1.0
+## 0.5.1
 - Added CreateIndexExpireAfterDuration function for BaseData class. With this function we may create TTL indexes for date fields like "_DateUtcCreated" or "_DateUtcModified"
-## 0.5.2.0
+## 0.5.2
 - "MongoHead.Info.txt" file renamed to and format changed to markdown. -> "MongoHead.VersionInfo.md".
 - "RunCommand" function to "MongoDBHelper". And "CreateIndexExpireAfterDuration" function modified accordingly.
 - New constructor option for "MongoHead.Config" class with ConnectionString and DatabaseName
 - New constructor option for "MongoHead.MongoDBHelper" class with ConnectionString and DatabaseName and 
 - "MongoHead.MongoDBHelper" refactored.
+## 0.5.3
+- 
