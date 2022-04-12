@@ -11,7 +11,7 @@ namespace MongoHead;
 
 public class MongoDBHelper<TT>
 {
-    #region Consts
+    #region CONSTS
 
     /// <summary>
     /// Constant for Id name of our collections. Used to access specific "_id" field property name of the BSON document to access it in run-time for insert, update or delete purposes
@@ -60,13 +60,15 @@ public class MongoDBHelper<TT>
     /// </summary>
     public string CollectionName { get; set; }
 
+    #region CONSTRUCTORS
+
     /// <summary>
     /// Construtor
     /// </summary>
     /// <param name="IConfiguration"></param>
     /// <param name="EntityType"></param>
     /// 
-    [Obsolete("This constructor is obsolete. Please use \"MongoDBHelper(IConfiguration configuration)\"")]
+    [Obsolete("This constructor is obsolete. Please use others.")]
     public MongoDBHelper(IConfiguration configuration, Type EntityType)
     {
         _configuration = configuration;
@@ -79,7 +81,7 @@ public class MongoDBHelper<TT>
     }
 
     /// <summary>
-    /// Construtor
+    /// Construtor with IConfiguration
     /// </summary>
     /// <param name="IConfiguration"></param>
     public MongoDBHelper(IConfiguration configuration)
@@ -88,6 +90,16 @@ public class MongoDBHelper<TT>
 
         config = new Config(_configuration);
 
+        if (string.IsNullOrEmpty(this.config.ConnectionString))
+        {
+            throw new Exception("MongoHead.MongoDBHelper config error: invalid or undefined connection string setting");
+        }
+
+        if (string.IsNullOrEmpty(this.config.DatabaseName))
+        {
+            throw new Exception("MongoHead.MongoDBHelper config error: DBName is not set. Please check your DatabaseName setting");
+        }
+
         Type EntityType = typeof(TT);
 
         this.CollectionName = EntityType.Name;
@@ -95,7 +107,34 @@ public class MongoDBHelper<TT>
         this.Collection = this.GetCollectionInstance();
     }
 
-    //SAVE DATA METHODS **************************************************************
+    /// <summary>
+    /// Construtor with ConnectionString and DbName
+    /// </summary>
+    /// <param name="ConnectionString"></param>
+    /// <param name="DbName"></param>
+    public MongoDBHelper(string ConnectionString, string DbName)
+    {
+        if (string.IsNullOrEmpty(ConnectionString))
+        {
+            throw new Exception("MongoHead.MongoDBHelper config error: ConnectionString is not set.");
+        }
+
+        if (string.IsNullOrEmpty(DbName))
+        {
+            throw new Exception("MongoHead.MongoDBHelper config error: DbName is not set.");
+        }
+
+        config = new Config(ConnectionString, DbName);
+
+        Type EntityType = typeof(TT);
+
+        this.CollectionName = EntityType.Name;
+        this.Db = this.GetDBInstance();
+        this.Collection = this.GetCollectionInstance();
+    } 
+
+    #endregion
+
     #region SAVE
 
     /// <summary>
@@ -155,7 +194,6 @@ public class MongoDBHelper<TT>
 
     #endregion
 
-    // GET LIST DATA METHODS **************************************************************
     #region GET LIST
 
     /// <summary>
@@ -237,7 +275,6 @@ public class MongoDBHelper<TT>
 
     #endregion
 
-    // GET DATA METHODS **************************************************************
     #region GET
 
     /// <summary>
@@ -363,7 +400,6 @@ public class MongoDBHelper<TT>
 
     #endregion
 
-    //DELETE DATA METHODS **************************************************************
     #region DELETE
 
     /// <summary>
@@ -443,7 +479,7 @@ public class MongoDBHelper<TT>
 
     #endregion
 
-    // GENERAL DATABASE METHODS ********************************************************
+    #region GENERAL DATABASE
 
     /// <summary>
     /// Key to filter documents by name
@@ -476,7 +512,10 @@ public class MongoDBHelper<TT>
         return await collections.AnyAsync();
     }
 
-    // SOME HELPER METHODS ********************************************************
+    #endregion
+
+    #region SOME HELPERS
+
     /// <summary>
     /// 
     /// </summary>
@@ -499,35 +538,24 @@ public class MongoDBHelper<TT>
     /// <summary>
     /// Returns an instance of Mongo Database with database name defined in the config object. 
     /// </summary>
-    /// <returns></returns>
+    /// <returns>IMongoDatabase</returns>
     private IMongoDatabase GetDBInstance()
     {
-        string connectionString = string.Empty;
-        string dbName = string.Empty;
-
-        connectionString = this.config.ConnectionString;
-        dbName = this.config.DatabaseName;
-
-        if (string.IsNullOrEmpty(connectionString))
+        if (this.config == null)
         {
-            throw new Exception("MongoHead.MongoDBHelper config error: invalid or undefined connection string setting");
+            throw new Exception("No config instance to create DB Instance.");
         }
 
-        if (string.IsNullOrEmpty(dbName))
-        {
-            throw new Exception("MongoHead.MongoDBHelper config error: DBName is not set. Please check your DatabaseName setting");
-        }
-
-        MongoClient client = new MongoClient(connectionString);
-        IMongoDatabase _db = client.GetDatabase(dbName);
+        MongoClient client = new MongoClient(this.config.ConnectionString);
+        IMongoDatabase _db = client.GetDatabase(this.config.DatabaseName);
 
         return _db;
     }
 
     /// <summary>
-    /// 
+    /// Use type name to return a collection instance
     /// </summary>
-    /// <returns></returns>
+    /// <returns>IMongoCollection<TT> collection instance</returns>
     private IMongoCollection<TT> GetCollectionInstance()
     {
         var collectionName = typeof(TT).Name;
@@ -535,4 +563,18 @@ public class MongoDBHelper<TT>
 
         return collection;
     }
+
+    /// <summary>
+    /// Runs command.
+    /// </summary>
+    /// <param name="CommandString">Command</param>
+    /// <returns></returns>
+    public async Task RunCommandAsync(string CommandString)
+    {
+        var command = BsonDocument.Parse(CommandString);
+        await this.Db.RunCommandAsync<BsonDocument>(command);
+    } 
+
+    #endregion
+
 }

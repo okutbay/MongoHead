@@ -293,9 +293,7 @@ public class BaseData<T> : IBaseData<T>
             fieldName = DateUtcCreatedFieldName;
         }
 
-        var commandStr = "{ createIndexes: '" + CollectionName + "', indexes: [ { key: { " + fieldName + ": -1 }, name: '" + IndexName + "', unique: false, expireAfterSeconds: "+ duration + ", sparse: true, background: true } ] }";
-
-        var cmd = BsonDocument.Parse(commandStr);
-        await Helper.Db.RunCommandAsync<BsonDocument>(cmd);
+        var commandString = "{ createIndexes: '" + CollectionName + "', indexes: [ { key: { " + fieldName + ": -1 }, name: '" + IndexName + "', unique: false, expireAfterSeconds: "+ duration + ", sparse: true, background: true } ] }";
+        await Helper.RunCommandAsync(commandString);
     }
 }
