@@ -7,8 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		CONTRIBUTION.md = CONTRIBUTION.md
 		LICENSE.md = LICENSE.md
+		MongoHead\MongoHead.VersionInfo.md = MongoHead\MongoHead.VersionInfo.md
 		README.md = README.md
-		MongoHead\VERSION.md = MongoHead\VERSION.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoHead", "MongoHead\MongoHead.csproj", "{A450A947-9C03-4E1A-847A-55EF28BAC882}"
