@@ -67,6 +67,19 @@ public class BaseData<T> : IBaseData<T>
         //this.CollectionName = typeof(T).Name;
     }
 
+    /// <summary>
+    /// Use specific connection to access custom database other than defined in configuration
+    /// </summary>
+    /// <param name="ConnectionString">Connection string</param>
+    /// <param name="DbName">DB To use</param>
+    public BaseData(string ConnectionString, string DbName)
+    {
+        //Set Helper Instance
+        this.Helper = new MongoDBHelper<T>(ConnectionString, DbName);
+        this.CollectionName = Helper.CollectionName;
+        //this.CollectionName = typeof(T).Name;
+    }
+
     #region Delete
 
     /// <summary>

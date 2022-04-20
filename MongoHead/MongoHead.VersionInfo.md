@@ -53,4 +53,4 @@
 - New constructor option for "MongoHead.MongoDBHelper" class with ConnectionString and DatabaseName and 
 - "MongoHead.MongoDBHelper" refactored.
 ## 0.5.3
-- 
+- Added new construtor for BaseData class to support operations over different databases than config.
