@@ -52,7 +52,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="cd $(OutDir) &#xD;&#xA;copy $(TargetFileName) D:\_References\Fabrikafa\$(ProjectName)&#xD;&#xA;copy *.md D:\_References\Fabrikafa\$(ProjectName)" />
+    <Exec Command="md c:\_References\Fabrikafa\$(ProjectName)\$(AssemblyVersion)&#xD;&#xA;cd $(OutDir) &#xD;&#xA;copy $(TargetFileName) c:\_References\Fabrikafa\$(ProjectName)&#xD;&#xA;copy *.md c:\_References\Fabrikafa\$(ProjectName)" />
   </Target>
 
 </Project>

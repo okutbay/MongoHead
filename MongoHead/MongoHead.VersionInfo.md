@@ -54,3 +54,4 @@
 - "MongoHead.MongoDBHelper" refactored.
 ## 0.5.3
 - Added new construtor for BaseData class to support operations over different databases than config.
+- Modified post built script tp point output folder to C drive again. Also added folder for keeping versions
