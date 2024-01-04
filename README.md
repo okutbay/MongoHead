@@ -1,5 +1,5 @@
 # MongoHead
-Provides the layer for MongoDB operations over .NET driver 2.15.0. Also MongoHead includes a BaseData and BaseEntity class to speed up your application development process.
+Provides the layer for MongoDB operations over .NET driver 2.23.1. Also MongoHead includes a BaseData and BaseEntity class to speed up your application development process.
 MongoHead is a .NET 6.0 Library
 
 ## Installation
@@ -8,7 +8,7 @@ https://www.nuget.org/packages/MongoHead/
 
 ## Dependencies
 Here is the list of installed NuGet packages and versions
-1. MongoDB.Driver (v2.15.0)
+1. MongoDB.Driver (v2.23.1)
 1. Microsoft.Extensions.Options (v6.0.0)
 1. Microsoft.Extensions.Configuration (v6.0.1)
 
