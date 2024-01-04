@@ -220,10 +220,13 @@ public class BaseData<T> : IBaseData<T>
     #endregion
 
     /// <summary>
-    /// Inserts or updates
+    /// Inserts or updates.
+    /// If the object has Id field populated this means an update 
+    /// and we are expecting a full object which is previously retrived from DB.
+    /// For that reason on updates we are only modifying DateUtcModified property.
     /// </summary>
     /// <param name="ObjectToSave"></param>
-    /// <returns></returns>
+    /// <returns>Id value for the object</returns>
     public ObjectId Save(T ObjectToSave)
     {
         PropertyInfo idProperty = typeof(T).GetProperty(this.IDFieldName);
