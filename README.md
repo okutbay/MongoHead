@@ -14,10 +14,10 @@ Here is the list of installed NuGet packages and versions
 
 ## Classes
 ### MongoDBHelper
-Helper for mongodb operations. Provides CRUD operations.
+Helper for MongoDB operations. Provides CRUD operations.
 Needs MongoDBConfig instance to configure connection to Db and and a Type to operate with it. Type names are equal to the collection names in MongoHead ecosystem.
 
-:loudspeaker: **We assume that your entity (type) has inherited BaseEntity and these some properties by defalt. Please check [BaseEntity class](https://github.com/okutbay/MongoHead#baseentity-classes-baseentitysimple-baseentitylight-baseentity-baseentitycomplex)**
+:loudspeaker: **We assume that your entity (type) has inherited BaseEntity and these some properties by default. Please check [BaseEntity class](https://github.com/okutbay/MongoHead#baseentity-classes-baseentitysimple-baseentitylight-baseentity-baseentitycomplex)**
 
 ### MongoDBConfig
 Simple class used to transfer database connection parameters to our MongoDBhelper class
@@ -30,22 +30,23 @@ Filter used in MongoDBHelper and BaseData class to define query parameters and E
 An implementation of IBaseData and aims to provide base CRUD methods to your data layer classes
 
 ### BaseEntity Classes (BaseEntitySimple, BaseEntityLight, BaseEntity, BaseEntityComplex)
-Each class adds some fields to entity provide to support to eliminating unnecessary properties on your entities and keeps your database collections lighter.
-Latest base entity hierarchy (inheritence) is: BaseEntitySimple < BaseEntityLight < BaseEntity < BaseEntityComplex
+Each class adds some fields for the entity. This gives freedom to choose generic fields for your entities.
+You may choose the base class which fits best to your scenario. This helps to eliminate unnecessary properties on your entities and keeps your database collections lighter.
 
 #### BaseEntitySimple adds this property
 * _id
 
-#### BaseEntityLight adds this property
+#### BaseEntityLight adds this property as an addition to BaseEntitySimple
 * _DateUtcCreated
 
-#### BaseEntity  adds these properties
+#### BaseEntity  adds these properties as addition to BaseEntityLight
 * _DateUtcModified
 * _IsActive
 
-#### BaseEntityComplex adds this property
+#### BaseEntityComplex adds this property as an addition to BaseEntity
 * _UserId
 
+So, base entity hierarchy (inheritence) is: BaseEntitySimple < BaseEntityLight < BaseEntity < BaseEntityComplex
 
 # Sample Application
 ## MongoHead Configuration
