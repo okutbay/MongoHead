@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Version>0.5.2</Version>
+    <Version>0.5.3</Version>
     <Company>Fabrikafa</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/okutbay/MongoHead</PackageProjectUrl>
@@ -11,8 +11,8 @@
     <PackageTags>MongoDB Helper</PackageTags>
     <Description>Provides the layer for MongoDB operations over .NET driver</Description>
     <Copyright>Fabrikafa</Copyright>
-    <AssemblyVersion>0.5.2.0</AssemblyVersion>
-    <FileVersion>0.5.2.0</FileVersion>
+    <AssemblyVersion>0.5.3.0</AssemblyVersion>
+    <FileVersion>0.5.3.0</FileVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>mongohead-logo-icon.png</PackageIcon>
     <PackageLicenseFile></PackageLicenseFile>
@@ -42,7 +42,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.15.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.23.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,7 +52,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="cd $(OutDir) &#xD;&#xA;copy $(TargetFileName) D:\_References\Fabrikafa\$(ProjectName)&#xD;&#xA;copy *.md D:\_References\Fabrikafa\$(ProjectName)" />
+    <Exec Command="md c:\_References\Fabrikafa\$(ProjectName)\$(AssemblyVersion)&#xD;&#xA;cd $(OutDir) &#xD;&#xA;copy $(TargetFileName) c:\_References\Fabrikafa\$(ProjectName)&#xD;&#xA;copy *.md c:\_References\Fabrikafa\$(ProjectName)" />
   </Target>
 
 </Project>

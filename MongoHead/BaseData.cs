@@ -67,6 +67,19 @@ public class BaseData<T> : IBaseData<T>
         //this.CollectionName = typeof(T).Name;
     }
 
+    /// <summary>
+    /// Use specific connection to access custom database other than defined in configuration
+    /// </summary>
+    /// <param name="ConnectionString">Connection string</param>
+    /// <param name="DbName">DB To use</param>
+    public BaseData(string ConnectionString, string DbName)
+    {
+        //Set Helper Instance
+        this.Helper = new MongoDBHelper<T>(ConnectionString, DbName);
+        this.CollectionName = Helper.CollectionName;
+        //this.CollectionName = typeof(T).Name;
+    }
+
     #region Delete
 
     /// <summary>
@@ -207,10 +220,13 @@ public class BaseData<T> : IBaseData<T>
     #endregion
 
     /// <summary>
-    /// Inserts or updates
+    /// Inserts or updates.
+    /// If the object has Id field populated this means an update 
+    /// and we are expecting a full object which is previously retrived from DB.
+    /// For that reason on updates we are only modifying DateUtcModified property.
     /// </summary>
     /// <param name="ObjectToSave"></param>
-    /// <returns></returns>
+    /// <returns>Id value for the object</returns>
     public ObjectId Save(T ObjectToSave)
     {
         PropertyInfo idProperty = typeof(T).GetProperty(this.IDFieldName);
