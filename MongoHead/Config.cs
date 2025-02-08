@@ -1,11 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using Microsoft.Extensions.Configuration;
 
 namespace MongoHead;
+
 public class Config
 {
     private readonly IConfiguration _configuration;
@@ -13,12 +10,12 @@ public class Config
     /// <summary>
     /// Key name for JSON Settings file
     /// </summary>
-    private const string keyNameConnectionString = "Settings:MongoDB:ConnectionString";
+    public const string keyNameConnectionString = "Settings:MongoDB:ConnectionString";
 
     /// <summary>
     /// Key name for JSON Settings file
     /// </summary>
-    private const string keyNameDatabaseName = "Settings:MongoDB:DatabaseName";
+    public const string keyNameDatabaseName = "Settings:MongoDB:DatabaseName";
 
     public Config(IConfiguration configuration)
     {

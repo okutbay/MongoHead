@@ -41,9 +41,9 @@ public class MongoDBHelper<TT>
     private readonly IConfiguration _configuration;
 
     /// <summary>
-    /// Mongo DB Config values from appsettings.josn are stored in this object
+    /// Mongo DB Config values from appsettings.json are stored in this object
     /// </summary>
-    private readonly Config config;
+    protected readonly Config config;
 
     /// <summary>
     /// MongoDB Database instance
