@@ -59,3 +59,6 @@
 - Change access modifiers related to Config.
 - FIX: is not configured as a type that is allowed to be serialized for this instance of ObjectSerializer
 - Update to .NET 9.0
+- "Microsoft.Extensions.Configuration" package version update from "6.0.1" to "9.0.2"
+- "Microsoft.Extensions.Options" package version update from "6.0.0" to "9.0.2"
+- "MongoDB.Driver" package version update from "2.23.1" to "3.2.1"
