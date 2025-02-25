@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <Version>0.5.3</Version>
     <Company>Fabrikafa</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

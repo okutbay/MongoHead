@@ -57,3 +57,5 @@
 - Modified post built script tp point output folder to C drive again. Also added folder for keeping versions
 - Upgrade "MongoDB.Driver" package version "2.15.0" to "2.23.1".
 - Change access modifiers related to Config.
+- FIX: is not configured as a type that is allowed to be serialized for this instance of ObjectSerializer
+- Update to .NET 9.0
