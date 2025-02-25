@@ -1,3 +1,5 @@
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Bson.Serialization;
 using MongoHeadSample;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +38,11 @@ fabrikafaSettings.Logging.LogLevel.Microsoft_AspNetCore = configuration.GetSecti
 string connStr = fabrikafaSettings.Settings.MongoDB.ConnectionString;
 
 #endregion
+
+var objectSerializer = new ObjectSerializer(type => ObjectSerializer.AllAllowedTypes(type) 
+//|| type.FullName.StartsWith("MongoHeadSample")
+);
+BsonSerializer.RegisterSerializer(objectSerializer);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
