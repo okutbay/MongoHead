@@ -62,3 +62,4 @@
 - "Microsoft.Extensions.Configuration" package version update from "6.0.1" to "9.0.2"
 - "Microsoft.Extensions.Options" package version update from "6.0.0" to "9.0.2"
 - "MongoDB.Driver" package version update from "2.23.1" to "3.2.1"
+- Introduce "_ExtGuid" and "_IsDeleted" as new properties for base "BaseEntityComplex" data class.

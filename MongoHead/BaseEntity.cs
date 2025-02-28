@@ -5,7 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace MongoHead;
 
 /// <summary>
-/// Basic entity model with only addition "_id" field.
+/// Basic entity model with addition "_id" property.
 /// Please note that inherited fields starts with underscore ("_")
 /// </summary>
 public class BaseEntitySimple
@@ -40,12 +40,19 @@ public class BaseEntity : BaseEntityLight
 }
 
 /// <summary>
-/// This is the most complex structure for MongoHead BaseEntities
+/// This is the most complex structure for MongoHead BaseEntities.
 /// Your entities is going to have these fields if you inherit this class:
-/// "_id", "_DateUtcCreated", "_IsActive", "_DateUtcModified", "_UserId"
+/// "_id", "_DateUtcCreated", "_IsActive", "_DateUtcModified", "_UserId", "_IsDeleted", "_ExtGuid"
 /// Please note that inherited fields starts with underscore ("_")
 /// </summary>
 public class BaseEntityComplex : BaseEntity
 {
     public string _UserId { get; set; }
+
+    public bool _IsDeleted { get; set; }
+
+    /// <summary>
+    /// Extarnal Guid is the exposed id for the world.
+    /// </summary>
+    public string _ExtGuid { get; set; }
 }
