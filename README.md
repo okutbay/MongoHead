@@ -45,8 +45,17 @@ You may choose the base class which fits best to your scenario. This helps to el
 
 #### BaseEntityComplex adds this property as an addition to BaseEntity
 * _UserId
+* _ExtGuid 
+* _IsDeleted
 
-So, base entity hierarchy (inheritence) is: BaseEntitySimple < BaseEntityLight < BaseEntity < BaseEntityComplex
+ So, base entity hierarchy (inheritence) is: BaseEntitySimple < BaseEntityLight < BaseEntity < BaseEntityComplex
+
+ ```
+ BaseEntitySimple   <   BaseEntityLight   <     BaseEntity          <   BaseEntityComplex
+ _id                    _DateUtcCreated         _DateUtcModified        _UserId
+                                                _IsActive               _ExtGuid
+                                                                        _IsDeleted
+```
 
 # Sample Application
 ## MongoHead Configuration
