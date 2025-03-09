@@ -10,10 +10,13 @@ namespace MongoHead;
 /// </summary>
 public class BaseEntitySimple
 {
+    [Obsolete("_id will be removed.")]
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
 
     public ObjectId _id { get; set; }
+
+    public ObjectId Id { get; set; }
 }
 
 /// <summary>
